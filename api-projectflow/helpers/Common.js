@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'ARYAN#123';
+const JWT_SECRET = process.env.JWT_SECRET || 'ARYAN123';
 const multer = require('multer');
 const { storage } = require('../config/cloudinary');
 
