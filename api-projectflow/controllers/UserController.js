@@ -57,7 +57,7 @@ module.exports = {
           role: user.role,
           loginUrl: loginUrl
         };
-        await MailHelper.sendEmail(user.email, user.name, 'Welcome to TaskFlow', 'welcomeEmail', emailContext);
+        await MailHelper.sendEmail(user.email, user.name, 'Welcome to ProjectFlow', 'welcomeEmail', emailContext);
         return res.status(200).send({
           success: true,
           message: "User Created Successfully",

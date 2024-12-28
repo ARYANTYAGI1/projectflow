@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Project Shared</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h1>Hello {{userName}},</h1>
+        <p>
+            You have been added to a new project on <strong>ProjectFlow</strong>. Below are the details of the project:
+        </p>
+        <p>
+            <strong>Project Name:</strong> {{projectName}}<br>
+            <strong>Description:</strong> {{description}}
+        </p>
+        <p>
+            Please log in to the ProjectFlow application to view and manage your tasks for this project.
+        </p>
+        <a href="https://your-ProjectFlow-app-link.com/login" class="button">Log In to ProjectFlow</a>
+        <div class="footer">
+            <p>
+                Thank you,<br>
+                The ProjectFlow Team
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,7 +4,6 @@ const projectSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }],
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   status: { type: String, enum: ['Active', 'InActive', 'Hold', 'Archive'], default: 'Active'}
 },{ timestamps: true });
