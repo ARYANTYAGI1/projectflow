@@ -136,7 +136,8 @@ module.exports = {
     },
     getProjectDetail: async (req, res) => {
         try {
-            const { projectId } = req.params;
+            console.log(req.params.id)
+            const projectId = req.params.id;
             const { role, _id } = req.user;
             let project;
             if (role === 'Admin') {
