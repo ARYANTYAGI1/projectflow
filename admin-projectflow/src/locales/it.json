@@ -1,0 +1,231 @@
+{
+  "navbar": {
+    "search": {
+      "text": "Search..."
+    },
+    "dropdown": {
+      "kevin": {
+        "text": "Kevin",
+        "list": {
+          "profile": "Profile",
+          "changePassword": "Change Password it",
+          "logout": "Logout"
+        }
+      }
+    },
+    "profile": "Profilo",
+    "changePassword": "Modifica Password",
+    "logout": "Logout",
+    "admin": "Admin"
+  },
+  "Settings": {
+    "packageAgent": {
+      "paginationText": "Pagina {page} di {totalPages} Totale {total} "
+    }
+  },
+  "profile": {
+    "title": "Il mio profilo",
+    "ProfileName": "ProjectFlow",
+    "date": "10/05/2018",
+    "phoneNumber": "9616566116",
+    "heading": {
+      "email": "Email",
+      "userName": "User Name",
+      "address": "Address",
+      "gender": "Gender"
+    },
+    "text": {
+      "email": "ProjectFlow@yopmail.com",
+      "userName": "ProjectFlow",
+      "address": "Florida City, FL, USA",
+      "gender": "Male"
+    },
+    "button": {
+      "update": "Update Profile",
+      "back": "Back"
+    }
+  },
+  "updateProfile": {
+    "title": "Update profile",
+    "form": {
+      "profilePicture": "Profile picture",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "dob": "Date of birth",
+      "gender": "Gender",
+      "phone": "Mobile phone",
+      "address": "Address",
+      "zip": "Zip code",
+      "radio": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "heading": "Contact Information",
+      "button": {
+        "update": "Update profile",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "label": {
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "cancel": "Cancel",
+    "submit": "Submit"
+  },
+  "menuitems": {
+    "menu": {
+      "text": "Menu"
+    },
+    "dashboard": {
+      "text": "Dashboard IT",
+      "badge": "3",
+      "user": "Utenti",
+      "devices": "Dispositivi",
+      "measurements": "Misurazione",
+      "settings" : "Impostazioni"
+    }
+  },
+  "company": {
+    "email": "Email",
+    "fullName": "Nome Cognome",
+    "verified": "Verificato",
+    "active": "Attivo",
+    "inactive": "Disattivato",
+    "status": "Stato",
+    "password": "Password",
+    "createNewAccount": "Crea nuovo account",
+    "cancel": "Annulla",
+    "update": "Aggiorna",
+    "back": "Indietro",
+    "changePassword": "Modifica Password",
+    "currentPassword": "Password attuale",
+    "newPassword": "Nuova Password",
+    "confirmPassword": "Conferma Password",
+    "welcome": "Benvenuti in Freeeasy",
+    "forgotPassword": "Hai dimenticato la password?",
+    "notAccount": "Non hai un account?",
+    "register": "Registrati",
+    "emailIsRequired": "L'e-mail è obbligatoria",
+    "passwordIsRequired": "La password è obbligatoria",
+    "firstNameIsRequired": "nome è obbligatorio",
+    "lastNameIsRequired": "cognome è obbligatorio",
+    "validEmail": "L'e-mail non è valida",
+    "addressIsRequired": "l'indirizzo è obbligatorio",
+    "resetPassword": "Reimposta password",
+    "optMessage": "Ti abbiamo inviato un OTP sulla tua email.",
+    "enterPassword": "Inserisci la tua nuova password.",
+    "otpIsRequired": "L'OTP è obbligatorio",
+    "createAccount": "Crea il tuo account Freeeasy",
+    "alreadyAccount": "Hai già un account?",
+    "address": "Indirizzo",
+    "city": "Città",
+    "province": "Provincia",
+    "region": "Regione",
+    "state": "Stato",
+    "updateProfile": "Aggiorna profilo",
+    "confirmTodeleteUser": "Conferma di eliminare l'utente",
+    "warning": "Attenzione",
+    "confirm": "Conferma",
+    "deviceName":"Nome del dispositivo",
+    "description":"Descrizione",
+    "deviceNameIsRequired": "Il nome del dispositivo è obbligatorio",
+    "deviceCodeIsRequired": "Il codice dispositivo è obbligatorio",
+    "descriptionIsRequired": "è richiesta la descrizione",
+    "userIsRequired": "l'utente è obbligatorio",
+    "updateDevice":"Update",
+    "selectUser": "Seleziona Utente",
+    "user": "Utente",
+    "save": "Salva",
+    "confirmTodevice": "confermare per eliminare il dispositivo",
+    "searchByEmailDeviceName": "Cerca per nome dispositivo o e-mail",
+    "searchByNameEmail": "Cerca per Nome E-mail",
+    "addUser": "Aggiungi Utente",
+    "updateUser": "Aggiorna Utente",
+    "details": "Dettagli",
+    "deviceDetail": "Dettagli del dispositivo",
+    "done":"Fatto",
+    "deviceIsRequired": "Il dispositivo è obbligatorio",
+    "measureIsRequired": "La misura è necessaria",
+    "dateIsRequired": "La data è obbligatoria",
+    "timeIsRequired": "È necessario tempo",
+    "scaleIsRequired": "È necessaria la scala",
+    "searchByDeviceNameDeviceCode": "Cerca per nome dispositivo o codice univoco dispositivo",
+    "confirmToMeasurement": "Conferma per eliminare la misurazione",
+    "measurementDetails": "Dettagli di Misurazione",
+    "key": "Key",
+    "searchByKey": "Search By Key",
+    "addKey": "Add Key",
+    "deviceCode":"Codice dispositivo",
+    "confirmToSecretKey": "Conferma per eliminare la chiave segreta",
+    "confirmToAppKey": "Conferma l'eliminazione della chiave dell'applicazione",
+    "fridgeName": "Nome del frigorifero"
+  },
+  "table": {
+    "actions": "Azioni",
+    "lastLogin": "Ultimo Accesso",
+    "created_at": "Data di creazione",
+    "emailverified": "E-mail verificata?",
+    "addUser": "Aggiungi Utenti",
+    "export": "Esporta",
+    "addDevices":"Aggiungi Dispositivi",
+    "description":"Descrizione",
+    "user":"Utente",
+    "fahrenheit": "°F (Fahrenheit)",
+    "celsius": "°C (Celsius)",
+    "key": "Chiave",
+    "noData": "Nessun dato"
+  },
+  "user": {
+    "addUser": "Aggiungi Utenti",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "pleaseEnterNewPassword": "Inserisci la nuova password",
+    "pleaseEnterConfirmPassword": "Inserisci la password di conferma",
+    "pleaseEnterOldPassword": "Inserisci la vecchia password",
+    "deviceName":"Nome del dispositivo",
+    "deviceCode":"Codice dispositivo",
+    "passwordConfirmPasswordDoesNotMatch": "La nuova password e la conferma della password non corrispondono",
+    "addDevice": "Aggiungi Dispositivo",
+    "updateDevice": "Aggiorna Dispositivo",
+    "verifyEmail1": "Account verificato con successo!",
+    "updateMeasurements": "Aggiorna la misurazione",
+    "addMeasurements": "Aggiungi Misurazione",
+    "device": "Dispositivo",
+    "selectDevice": "Seleziona dispositivo",
+    "scale": "Scala",
+    "temperature": "Temperatura",
+    "dateTime": "Data e Ora",
+    "measure": "Misura",
+    "user": "Utente",
+    "sureToLogout": "Sei sicuro di uscire?",
+    "logoutSuccessfully": "Logout effettuato con successo",
+    "loginSuccessfull": "Accesso effettuato con successo",
+    "addSecretKey": "Aggiungi chiave segreta",
+    "secretKey": "Chiave segreta",
+    "ApplicationKey": "Chiave dell'applicazione",
+    "addAppKey": "Aggiungi chiave dell'applicazione"
+  },
+  "Users": "Utenti",
+  "addUser":"Aggiungi Utente",
+  "updateUser": "Aggiorna Utente",
+  "userDetail": "Dettagli Utente",
+  "Measurements": "Misure",
+  "addMeasurement": "Aggiungi Misurazione",
+  "updateMeasurement": "Aggiorna Misurazione",
+  "Devices": "Dispositivi",
+  "addDevice":"Aggiungi Dispositivo",
+  "updateDevice":"Aggiorna Dispositivo",
+  "Pprofile":"Profilo",
+  "updatePprofile": "Aggiorna Profilo",
+  "changePpassword": "Modifica Password",
+  "Setting": "Impostazioni",
+  "addKey": "Aggiungi Chiave Segreta",
+  "UpdateKey": "Aggiorna Chiave Segreta",
+  "addAppKey": "Aggiungi Chiave dell'App",
+  "UpdateAppKey": "Aggiorna Chiave dell'App"
+}

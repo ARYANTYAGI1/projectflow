@@ -1,0 +1,243 @@
+{
+  "navbar": {
+    "search": {
+      "text": "Search..."
+    },
+    "dropdown": {
+      "profileList": {
+        "text": "Admin",
+        "list": {
+          "profile": "Profile",
+          "changePassword": "Change Password",
+          "logout": "Logout"
+        }
+      }
+    },
+    "profile": "Profile",
+    "changePassword": "Change Password",
+    "logout": "Logout",
+    "admin": "Admin"
+  },
+  "Settings": {
+    "packageAgent": {
+      "paginationText": "Page {page} of {totalPages}, showing {total} items"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "ProfileName": "ProjectFlow",
+    "date": "10/05/2018",
+    "phoneNumber": "9616566116",
+    "heading": {
+      "email": "Email",
+      "userName": "User Name",
+      "address": "Address",
+      "gender": "Gender"
+    },
+    "text": {
+      "email": "@yopmail.com",
+      "userName": "ProjectFlow",
+      "address": "Florida City, FL, USA",
+      "gender": "Male"
+    },
+    "button": {
+      "update": "Update Profile",
+      "back": "Back"
+    }
+  },
+  "updateProfile": {
+    "title": "Update profile",
+    "form": {
+      "profilePicture": "Profile picture",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "dob": "Date of birth",
+      "gender": "Gender",
+      "phone": "Mobile phone",
+      "address": "Address",
+      "zip": "Zip code",
+      "radio": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "heading": "Contact Information",
+      "button": {
+        "update": "Update profile",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "label": {
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "cancel": "Cancel",
+    "submit": "Submit"
+  },
+  "menuitems": {
+    "menu": {
+      "text": "Menu"
+    },
+    "dashboard": {
+      "text": "Dashboard",
+      "user": "Users",
+      "devices": "Devices",
+      "measurements": "Measurements",
+      "settings" : "Settings"
+    },
+    "utility": {
+      "text": "Utility",
+      "list": {
+        "starter": "Starter Page",
+        "maintenance": "Maintenance",
+        "comingsoon": "Coming Soon",
+        "timeline": "Timeline",
+        "faqs": "FAQs",
+        "pricing": "Pricing",
+        "error404": "Error 404",
+        "error500": "Error 500"
+      }
+    },
+    "components": {
+      "text": "Components"
+    }
+  },
+  "company": {
+    "email": "Email",
+    "fullName": "Full Name",
+    "verified": "Verified?",
+    "active": "Active",
+    "inActive": "Block",
+    "status": "Status",
+    "password": "Password",
+    "createNewAccount": "Create New Account",
+    "cancel": "Cancel",
+    "update": "Update",
+    "back": "Back",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "welcome": "Welcome to ProjectFlow",
+    "forgotPassword": "Forgot your password?",
+    "notAccount": "Don't have an account?",
+    "register": "Register",
+    "emailIsRequired": "E-mail is required",
+    "firstNameIsRequired": "First Name is required",
+    "lastNameIsRequired": "Last Name is required",
+    "validEmail": "Email is not valid",
+    "addressIsRequired": "Address is required",
+    "passwordIsRequired": "Password is required",
+    "resetPassword": "Reset Password",
+    "optMessage": "We have sent you an OTP on your email.",
+    "enterPassword": "Enter Your New Password.",
+    "otpIsRequired": "OTP is required",
+    "createAccount": "Create Your ProjectFlow Account",
+    "alreadyAccount": "Already have an Account?",
+    "address": "Address",
+    "city": "City",
+    "province": "Province",
+    "region": "Region",
+    "state": "State",
+    "updateProfile": "Update Profile",
+    "confirmTodeleteUser": "Confirm To Delete User",
+    "warning": "Attention",
+    "confirm": "Confirm",
+    "deviceCode": "Device Code",
+    "deviceName": "Device Name",
+    "description": "Description",
+    "deviceNameIsRequired": "Device Name is required",
+    "deviceCodeIsRequired": "Device Code is required",
+    "descriptionIsRequired": "Description is required",
+    "userIsRequired": "User is required",
+    "updateDevice":"Update",
+    "selectUser": "Select User",
+    "user": "User",
+    "save": "Save",
+    "confirmTodevice": "Confirm to delete device",
+    "searchByEmailDeviceName": "Seach by Device Name or Email",
+    "searchByNameEmail": "Search by Name or E-mail",
+    "addUser": "Add User",
+    "updateUser": "Update User",
+    "details": "Details",
+    "done": "Done",
+    "deviceDetail": "Device Details",
+    "deviceIsRequired": "Device is required",
+    "measureIsRequired": "Measure is required",
+    "dateIsRequired": "Date is required",
+    "timeIsRequired": "Time is required",
+    "scaleIsRequired": "Scale is required",
+    "searchByDeviceNameDeviceCode": "Search by device name or device unique code",
+    "confirmToMeasurement": "Confirm to delete measurement",
+    "measurementDetails": "Measurement Details ",
+    "confirmToSecretKey": "Confirm to delete secret key",
+    "confirmToAppKey": "Confirm to delete app key",
+    "fridgeName": "Fridge Name"
+  },
+  "table": {
+    "actions": "Actions",
+    "lastLogin": "Last login",
+    "created_at": "Creation Date",
+    "emailverified": "E-mail Verified ?",
+    "addUser": "Add User",
+    "export": "Export",
+    "addDevices": "Add Devices",
+    "description": "Description",
+    "user": "User",
+    "fahrenheit": "°F (Fahrenheit)",
+    "celsius": "°C (Celsius)",
+    "key": "Key",
+    "noData": "No data"
+  },
+  "user": {
+    "addUser": "Aggiungi Utenti",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "pleaseEnterOldPassword": "Please  Old Password",
+    "pleaseEnterNewPassword": "Please Enter New Password",
+    "pleaseEnterConfirmPassword": "Please Enter Confirm Password",
+    "deviceName": "Device Name",
+    "deviceCode": "Device Code",
+    "passwordConfirmPasswordDoesNotMatch": "Password and Confirm Password does not match",
+    "addDevice": "Add Device",
+    "updateDevice": "Update Device",
+    "verifyEmail1": "Account successfully verified!",
+    "updateMeasurements": "Update measurements",
+    "addMeasurements": "Add measurements",
+    "device": "Devices",
+    "selectDevice": "Select device",
+    "scale": "Scale",
+    "temperature": "Temperature",
+    "dateTime": "Date Time",
+    "measure": "Measure",
+    "user": "User",
+    "sureToLogout": "Are you sure to logout?",
+    "logoutSuccessfully": "Logout successfully",
+    "loginSuccessfull": "Login successfully",
+    "addSecretKey": "Add secret key",
+    "secretKey": "Secret key",
+    "ApplicationKey": "Application key",
+    "addAppKey": "Add Application key"
+  },
+  "Users": "Users",
+  "addUser": "Add User",
+  "updateUser": "Update User",
+  "userDetail": "User Details",
+  "Measurements": "Measurements",
+  "addMeasurement": "Add Measurement",
+  "updateMeasurement": "Update Measurement",
+  "Devices": "Devices",
+  "addDevice": "Add Device",
+  "updateDevice": "Update Device",
+  "Pprofile": "Profile",
+  "updatePprofile": "Update Profile",
+  "changePpassword": "Change Password",
+  "Setting": "Settings",
+  "addKey": "Add Secret Key",
+  "UpdateKey": "Update Secret Key",
+  "addAppKey": "Add App Key",
+  "UpdateAppKey": "Update App Key"
+}
