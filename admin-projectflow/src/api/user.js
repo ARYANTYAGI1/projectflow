@@ -4,7 +4,7 @@ import { getToken } from '@/utils/auth'
 
 export function getUsersList(query) {
   return request({
-    url: '/users/',
+    url: '/users/list/',
     method: 'get',
     params: query
   })

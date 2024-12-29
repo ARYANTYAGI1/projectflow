@@ -20,6 +20,7 @@ router.afterEach((to, from) => {
 })
 // Before each route evaluates...
 router.beforeEach((routeTo, routeFrom, next) => {
+  console.log(routeTo);
   document.title = routeTo.name ? `${routeTo.name} | ProjectFlow` : 'ProjectFlow'
 
   const publicPages = ['/login', '/forgot-password', '/account/verify', '/register']
@@ -35,11 +36,14 @@ router.beforeEach((routeTo, routeFrom, next) => {
   }
   // Convert both to Number for consistent comparison
   const userTypeNum = Number(userType);
+  console.log('User type:', userTypeNum)
   const allowedUserTypes = routeTo.meta.userType?.map(Number);
+  console.log('Allowed user types:', allowedUserTypes)
   // Check user type access
   if (allowedUserTypes && !allowedUserTypes.includes(userTypeNum)) {
     if(userTypeNum == 1) {
-      return next('/');
+      console.log(userTypeNum);
+      return next('/dashboard');
     }
     else {
       return next ('/dashboard');

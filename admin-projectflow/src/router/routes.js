@@ -74,8 +74,12 @@ export default [
     }
   },
   {
-    path: '/dashboard',
+    path: '/',
     name: 'Dashboard',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3]
+    },
     component: () => {
       return import('../views/pages/dashboard/index.vue')
     }

@@ -3,7 +3,7 @@ export const menuItems = [
     id: 1,
     label: 'Dashboard',
     icon: 'ri-user-fill',
-    link: '/dashboard',
+    link: '/',
     userType: [1,2,3]
   },
   {
