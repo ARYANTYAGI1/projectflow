@@ -6,7 +6,7 @@ export function loginByUsername(username, password) {
     password: password
   }
   return request({
-    url: '/login',
+    url: '/users/login',
     method: 'post',
     data
   })
@@ -53,7 +53,7 @@ export function checkLoginCredentials(data) {
 
 export function doSignUp(data) {
   return request({
-    url: '/signup',
+    url: '/users/register',
     method: 'post',
     data
   })

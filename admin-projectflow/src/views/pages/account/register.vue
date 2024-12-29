@@ -30,6 +30,13 @@
                             ref="registerForm"
                           >
                             <div class="form-group auth-form-group-custom mb-4">
+                              <el-form-item prop="name">
+                                <el-input
+                                  type="name"
+                                  v-model="registerForm.name"
+                                  placeholder="Enter Full Name"
+                                />
+                              </el-form-item>
                               <el-form-item prop="email">
                                 <el-input
                                   type="email"
@@ -90,19 +97,27 @@ export default {
       registerForm: {
         email: "",
         password: "",
+        name: "",
       },
       registerFormRules: {
+        name: [
+          {
+            required: true,
+            message: "Name is required",
+            trigger: "change",
+          },
+        ],
         email: [
           {
             required: true,
-            message: this.$t("company.emailIsRequired"),
+            message: "Email is required",
             trigger: "change",
           },
         ],
         password: [
           {
             required: true,
-            message: this.$t("company.passwordIsRequired"),
+            message: "Password is required",
             trigger: "change",
           },
         ],
@@ -123,8 +138,8 @@ export default {
             this.registerForm.email = "";
             return false;
           }
-          const { email, password } = this.registerForm;
-          const opts = { email, password, userType: 2 };
+          const { email, password, name } = this.registerForm;
+          const opts = { email, password, name };
           this.addingRequest = true;
           doSignUp(opts)
             .then((response) => {
