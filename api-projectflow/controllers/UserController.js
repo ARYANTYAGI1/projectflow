@@ -20,7 +20,8 @@ module.exports = {
         email: email,
         password: password,
         role: "Admin",
-        status: "Active"
+        status: "Active",
+        userType: 1
       })
       const savedUser =await user.save();
       console.log(savedUser)
@@ -35,7 +36,7 @@ module.exports = {
   },
   createUser: async(req, res)=>{
     try {
-        const { name, email, password,  role} = req.body;
+        const { name, email, password, role, userType} = req.body;
         const admin = req.user.role;
         if(!admin==='Admin') return res.status(400).send({ success:false, message: 'You have not access to perform this opertaion', data: null });
         const checkUser = await User.findOne({email:email});
@@ -45,6 +46,7 @@ module.exports = {
           email: email,
           password: password,
           role: role,
+          userType: userType,
           status: "Active"
         });
         const savedUser = await user.save();
@@ -73,7 +75,7 @@ module.exports = {
       const user = await User.findOne({ email });
       if (user && (await bcrypt.compare(password, user.password))) {
         const token = CommonHelper.generateToken(user)
-        res.send({ success: true, message: 'Login Success', data: { user: user._id, token: token}});
+        res.send({ success: true, message: 'Login Success', token: token, user: user._id, userType: user.userType });
       } else {
         res.status(400).send({ success: false, message: 'Invalid credentials', data: null });
       }
@@ -82,4 +84,13 @@ module.exports = {
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
+  getUserProfile: async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id).select('-password');
+      if (!user) return res.status(404).send({ success:false, message: 'User not found', data: null });
+      res.status(200).send({ success: true, message: 'User Profile', data: user });
+    } catch (error) {
+      res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
+    }
+  }
 };

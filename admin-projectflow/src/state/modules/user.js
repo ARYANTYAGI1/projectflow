@@ -8,12 +8,10 @@ const user = {
     user: '',
     status: '',
     token: getToken(),
-    fullName: Cookies.get('fullName'),
+    name: Cookies.get('name'),
     picture: Cookies.get('picture'),
     userType: Cookies.get('userType'),
     userid: Cookies.get('userid'),
-    firstName: Cookies.get('firstName'),
-    socialType: Cookies.get('socialType'),
     email: Cookies.get('email'),
     isLoggedIn: Cookies.get('isLoggedIn'),
     ispasswordchanged: Cookies.get('ispasswordchanged'),
@@ -32,11 +30,8 @@ const user = {
     SET_LOGGEDIN: (state, isLoggedIn) => {
       state.isLoggedIn = isLoggedIn
     },
-    SET_FULLNAME: (state, fullName) => {
-      state.fullName = fullName
-    },
-    SET_FIRSTNAME: (state, firstName) => {
-      state.firstName = firstName
+    SET_NAME: (state, name) => {
+      state.name = name
     },
     SET_EMAIL: (state, email) => {
       state.email = email
@@ -53,14 +48,13 @@ const user = {
     SET_USERTYPE: (state, userType) => {
       state.userType = userType
     },
-    SET_SOCIALTYPE: (state, socialType) => {
-      state.socialType = socialType
-    }
   },
   actions: {
     loginByUsername({ commit }, userInfo) {
+      console.log(userInfo)
       return new Promise((resolve, reject) => {
         loginByUsername(userInfo.email, userInfo.password).then(response => {
+          console.log(response)
           commit('SET_TOKEN', response.data.token)
           setToken(response.data.token)
           resolve(response.data)
@@ -80,20 +74,18 @@ const user = {
             reject('Verification failed, please login again.')
           }
           const data = response.data.data
+          console.log(data)
           commit('SET_USERID', data._id)
           commit('SET_LOGGEDIN', true)
           commit('SET_IS_PROILE_COMPLETE', data.isProfileComplete)
-          commit('SET_FULLNAME', data.fullName)
-          commit('SET_FIRSTNAME', data.firstName)
           commit('SET_EMAIL', data.email)
           commit('SET_USERTYPE', data.userType)
-          commit('SET_SOCIALTYPE', data.socialType)
+          commit('SET_NAME', data.fullName)
           commit('SET_PICTURE', data.picture)
           Cookies.set('userid', data._id)
           Cookies.set('isLoggedIn', true)
           Cookies.set('isProfileComplete', data.isProfileComplete)
-          Cookies.set('fullName', data.fullName)
-          Cookies.set('firstName', data.firstName)
+          Cookies.set('name', data.fullName)
           Cookies.set('email', data.email)
           Cookies.set('userType', data.userType)
           Cookies.set('socialType', data.socialType)

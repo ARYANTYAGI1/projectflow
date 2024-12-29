@@ -1,53 +1,68 @@
 <template>
-  <!-- Page Top Heading -->
-  <section class="top-heading-bar">
-    <div class="main-heading">
-      <div class="container-fluid">
-        <h1>Dashboard</h1>
+  <div class="dashboard">
+    <h1>Dashboard</h1>
+    <div class="stats">
+      <div class="stat">
+        <h2>Users</h2>
+        <p>{{ userCount }}</p>
+      </div>
+      <div class="stat">
+        <h2>Projects</h2>
+        <p>{{ projectCount }}</p>
+      </div>
+      <div class="stat">
+        <h2>Tasks</h2>
+        <p>{{ taskCount }}</p>
       </div>
     </div>
-  </section>
-  <div class="container-fluid">
-    <p>model</p>
-    <el-button class="btn btn-primary" @click="showdialogVisible"
-      >click to open the Dialog</el-button
-    >
-    <el-dialog title="Tips" v-model="dialogVisible" class="custom-dialog">
-      <span>This is a message</span>
-      <div class="text-center">
-        <el-button class="btn btn-secondary" @click="closedialogVisible"
-          >Cancel</el-button
-        >
-        <el-button class="btn btn-primary" @click="closedialogVisible"
-          >Submit</el-button
-        >
-      </div>
-    </el-dialog>
-    <el-divider />
-    <p>TextEditor</p>
-    <TinyMCE ref="editor" />
   </div>
 </template>
+
 <script>
-import TinyMCE from "@/components/Tinymce/Index.vue";
 export default {
-  components: {
-    TinyMCE,
-  },
   data() {
     return {
-      pageTitle: "Dashboard",
-      dialogVisible: false,
-      description: "",
+      userCount: 0,
+      projectCount: 0,
+      taskCount: 0,
     };
   },
+  created() {
+    this.fetchDashboardData();
+  },
   methods: {
-    showdialogVisible() {
-      this.dialogVisible = true;
-    },
-    closedialogVisible() {
-      this.dialogVisible = false;
+    fetchDashboardData() {
+      this.userCount = 100;
+      this.projectCount = 50;
+      this.taskCount = 200;
     },
   },
 };
 </script>
+
+<style scoped>
+.dashboard {
+  padding: 20px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat h2 {
+  margin-bottom: 10px;
+}
+
+.stat p {
+  font-size: 24px;
+  font-weight: bold;
+}
+</style>

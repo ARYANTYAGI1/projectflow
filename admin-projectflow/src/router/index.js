@@ -42,7 +42,7 @@ router.beforeEach((routeTo, routeFrom, next) => {
       return next('/');
     }
     else {
-      return next ('/device')
+      return next ('/dashboard');
     }
   }
   next()

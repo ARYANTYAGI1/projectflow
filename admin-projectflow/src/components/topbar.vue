@@ -58,7 +58,7 @@
             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
           </template>
           <!-- item-->
-          <BDropdownItem href="/profile">
+          <BDropdownItem href="/">
             <i class="ri-user-line align-middle me-1"></i>
             {{ $t("navbar.profile") }}
           </BDropdownItem>

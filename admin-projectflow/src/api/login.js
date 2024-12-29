@@ -60,8 +60,9 @@ export function doSignUp(data) {
 }
 
 export function getUserInfo(token) {
+  console.log('token', token)
   return request({
-    url: '/profile',
+    url: '/users/profile',
     method: 'get'
   })
 }
