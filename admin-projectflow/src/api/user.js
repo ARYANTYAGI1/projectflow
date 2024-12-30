@@ -19,8 +19,9 @@ export function changePassword(data) {
 }
 
 export function verifyForgotPasswordCode(data) {
+  console.log(data)
   return request({
-    url: '/verify/code',
+    url: '/users/verify-code',
     method: 'put',
     data
   })

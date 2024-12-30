@@ -29,7 +29,7 @@
                           </el-form>
                           <div class="mt-3 text-center">
                             <p>
-                              Torna al login
+                              Back to Login?
                               <router-link tag="a" to="/login" class="font-weight-medium text-primary">Log in</router-link>
                             </p>
                           </div>
@@ -52,12 +52,12 @@
                             <el-row :gutter="20">
                               <el-col :md="24">
                                 <el-form-item prop="newPassword">
-                                  <el-input type="password" v-model="passwordForm.newPassword" placeholder="Nuova Password" />
+                                  <el-input type="password" v-model="passwordForm.newPassword" placeholder="Enter New Password" />
                                 </el-form-item>
                               </el-col>
                               <el-col :md="24">
                                 <el-form-item prop="confirmPassword">
-                                  <el-input type="password" v-model="passwordForm.confirmPassword" placeholder="Conferma Password" />
+                                  <el-input type="password" v-model="passwordForm.confirmPassword" placeholder="Confirm New Password" />
                                 </el-form-item>
                               </el-col>
                             </el-row>
@@ -158,9 +158,10 @@ export default {
       this.$refs.otpForm.validate((valid) => {
         if (valid) {
           this.loading = true
-          verifyForgotPasswordCode({ code: this.otpForm.otp }).then(response => {
+          verifyForgotPasswordCode({ code: this.otpForm.otp, email:this.emailForm.email}).then(response => {
             this.loading = false
             this.userData = response.data.data
+            console.log(this.userData)
             this.$message({
               message: response.data.message,
               type: 'success'
@@ -184,8 +185,7 @@ export default {
         if (valid) {
           if (this.passwordForm.newPassword && this.passwordForm.confirmPassword) {
             var opts = {
-              userId: this.userData.userId,
-              token: this.userData.token,
+              userId: this.userData,
               newPassword: this.passwordForm.newPassword,
               confirmPassword: this.passwordForm.confirmPassword
             }

@@ -21,15 +21,16 @@ export function logout() {
 
 export function forgotPassword(data) {
   return request({
-    url: '/forgot/password',
+    url: '/users/reset-code',
     method: 'put',
     data: data
   })
 }
 
 export function resetPassword(data) {
+  console.log(data)
   return request({
-    url: '/reset/password',
+    url: '/users/reset-password',
     method: 'put',
     data: data
   })
