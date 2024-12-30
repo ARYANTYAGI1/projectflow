@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['Admin', 'Project Manager', 'Team Member'], required: true },
   userType: { type: Number, enum: [1,2,3], default: 3 },
-  status: { type: String, enum: ['Active', 'InActive'], default: 'Active'}
+  status: { type: String, enum: ['Active', 'InActive'], default: 'Active'},
+  resetCode: { type: String },
+  resetCodeExpires: { type: Date },
 },{ timestamps: true });
 
 userSchema.pre('save', async function (next) {

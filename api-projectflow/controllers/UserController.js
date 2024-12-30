@@ -3,6 +3,7 @@ const CommonHelper = require('../helpers/Common');
 const MailHelper = require('../helpers/mail')
 const bcrypt = require('bcryptjs');
 const { registerValidationSchema } = require('../validations/userValidation');
+const crypto = require('crypto');
 
 
 module.exports = {
@@ -125,4 +126,73 @@ module.exports = {
         return res.status(500).send({ success: false, message: 'Something Went Wrong', data: err });
     });
   },
+  resetCodeEmail: async (req, res) => {
+    try {
+      console.log(req.body)
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).send({ success: false, message: 'User not found', data: null });
+        }
+        const resetCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+        user.resetCode = resetCode;
+        await user.save();
+        const emailContext = {
+            userName: user.name,
+            resetCode,
+        };
+
+        // Send reset code email
+        await MailHelper.sendEmail(
+            user.email,
+            user.name,
+            'Reset Your TaskFlow Password',
+            'reset-password',
+            emailContext
+        );
+
+        return res.status(200).send({ success: true, message: 'Reset code sent successfully', data: null });
+    } catch (error) {
+      console.log(error)
+        return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    }
+  },
+  verifyResetCode: async (req, res) => {
+    try {
+        console.log(req.body);
+        const { email, code } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).send({ success: false, message: 'User not found', data: null });
+        }
+        if (user.resetCode !== code) {
+          console.log('Invalid or expired reset code', code, user.resetCode)
+            return res.status(400).send({ success: false, message: 'Invalid or expired reset code', data: null });
+        }
+        user.resetCode = '',
+        await user.save();
+        return res.status(200).send({ success: true, message: 'Reset code verified successfully', data: user._id });
+    } catch (error) {
+        return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    }
+  },
+  resetPassword: async (req, res) => {
+    try {
+        const { userId, newPassword, confirmPassword } = req.body;
+        if (newPassword !== confirmPassword) {
+            return res.status(400).send({ success: false, message: 'Passwords do not match', data: null });
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send({ success: false, message: 'User not found', data: null });
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        await user.save();
+        return res.status(200).send({ success: true, message: 'Password reset successfully', data: null });
+    } catch (error) {
+        return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    }
+  }
 };
