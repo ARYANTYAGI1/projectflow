@@ -37,7 +37,7 @@ module.exports = {
   },
   createUser: async(req, res)=>{
     try {
-        const { name, email, password, role, userType} = req.body;
+        const { name, email, password, role} = req.body;
         const admin = req.user.role;
         if(!admin==='Admin') return res.status(400).send({ success:false, message: 'You have not access to perform this opertaion', data: null });
         const checkUser = await User.findOne({email:email});
@@ -47,7 +47,7 @@ module.exports = {
           email: email,
           password: password,
           role: role,
-          userType: userType,
+          userType: role === 'Project Manager' ? 1 : 2,
           status: "Active"
         });
         const savedUser = await user.save();
@@ -94,37 +94,52 @@ module.exports = {
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
-  getUsersList: (req, res) => {
-    console.log(req.query);
-    var query = {};
-    var offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
-    var limit = req.query.limit ? req.query.limit : 10;
-    if (!query.$and) {
-        query.$and = [];
+  getUsersList: async (req, res) => {
+    try {
+      console.log(req.query);
+      var query = {};
+      var offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
+      var limit = req.query.limit ? req.query.limit : 10;
+      if (!query.$and) {
+          query.$and = [];
+      }
+      if (req.query.name) {
+          var name = req.query.name;
+          query.$and.push({ '$or': [{ name: { $regex: new RegExp(name.toLowerCase(), 'i') } }, { email: { $regex: new RegExp(name.toLowerCase(), 'i') } }] });
+      }
+      if (req.query.userType) {
+          query.$and.push({ userType: req.query.userType });
+      }
+      if (req.query.isActive) {
+          query.$and.push({ isActive: req.query.isActive });
+      }
+      if (!query.$and || !query.$and.length) {
+        query = { userType: { $in: [2, 3] } };
+      } else {
+          query.$and.push({ userType: { $in: [2, 3] } });
+      }
+      const [totalCount, users] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query)
+          .sort('-created_at')
+          .skip(offset)
+          .limit(parseInt(limit))
+      ]);
+      console.log(users)
+      return res.status(200).send({
+        success: true,
+        message: 'Success',
+        data: users,
+        totalCount
+      })
+    } catch (error) {
+      console.error(err);
+      return res.status(500).send({
+        success: false,
+        message: 'Something Went Wrong',
+        error: err.message
+      });
     }
-    if (req.query.name) {
-        var name = req.query.name;
-        query.$and.push({ '$or': [{ name: { $regex: new RegExp(name.toLowerCase(), 'i') } }, { email: { $regex: new RegExp(name.toLowerCase(), 'i') } }] });
-    }
-    if (req.query.userType) {
-        query.$and.push({ userType: req.query.userType });
-    }
-    if (req.query.isActive) {
-        query.$and.push({ isActive: req.query.isActive });
-    }
-    if (!query.$and || !query.$and.length) {
-      query = { userType: { $in: [2, 3] } };
-    } else {
-        query.$and.push({ userType: { $in: [2, 3] } });
-    } 
-    Promise.all([
-        User.countDocuments(query).exec(),
-        User.find(query).sort('-created_at').skip(parseInt(offset)).limit(parseInt(limit)).exec()
-    ]).then(function (users) {
-        return res.status(200).send({ success: true, message: 'Success', data: users, totalCount: users[0] });
-    }).catch(function (err) {
-        return res.status(500).send({ success: false, message: 'Something Went Wrong', data: err });
-    });
   },
   resetCodeEmail: async (req, res) => {
     try {
@@ -171,7 +186,7 @@ module.exports = {
         }
         user.resetCode = '',
         await user.save();
-        return res.status(200).send({ success: true, message: 'Reset code verified successfully', data: user._id });
+        return res.status(200).send({ success: true, message: 'Reset code verified successfully', data: user._id }); 
     } catch (error) {
         return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
     }

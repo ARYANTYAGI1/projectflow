@@ -16,34 +16,21 @@
         </div>
         <div v-loading="listLoading" class="user-table">
           <el-table :data="userList" border style="width: 100%">
-            <el-table-column align="center" :label="$t('company.fullName')">
+            <el-table-column align="center" label="Name">
               <template #default="scope">{{
-                scope.row.fullName ? scope.row.fullName : "--"
+                scope.row.name
               }}</template>
             </el-table-column>
-            <el-table-column align="center" :label="$t('company.email')">
+            <el-table-column align="center" label="Email">
               <template #default="scope">{{ scope.row.email }}</template>
-            </el-table-column>
-            <el-table-column align="center" :label="$t('company.verified')">
-              <template #default="scope">
-                <el-button v-if="!scope.row.isEmailVerified" type="danger" size="small" class="statusbtn"
-                  title="Non verificato">Non verificato</el-button>
-                <el-button v-if="scope.row.isEmailVerified" type="success" size="small" class="statusbtn"
-                  style="pointer-events: none" title="Verificati">Verificato</el-button>
-              </template>
             </el-table-column>
             <el-table-column align="center" :label="$t('company.status')" width="130">
               <template #default="scope">
-                <el-button v-if="scope.row.isActive == false" type="danger" size="small" style="pointer-events: none"
+                <el-button v-if="scope.row.status == 'InActive'"  type="danger" size="small" style="pointer-events: none"
                   title="company.inactive" class="statusbtn">{{ $t("company.inactive") }}</el-button>
-                <el-button v-if="scope.row.isActive == true" type="success" size="small" style="pointer-events: none"
+                <el-button v-if="scope.row.status == 'Active'" type="success" size="small" style="pointer-events: none"
                   title="company.active" class="statusbtn">{{ $t("company.active") }}</el-button>
               </template>
-            </el-table-column>
-            <el-table-column align="center" :label="$t('table.lastLogin')">
-              <template #default="scope">{{
-                formatDate(scope.row.lastLogin)
-              }}</template>
             </el-table-column>
             <el-table-column align="center" :label="$t('table.created_at')">
               <template #default="scope">{{
@@ -55,9 +42,6 @@
                 <div class="d-flex justify-content-center">
                   <router-link :to="`/users/view/${row._id}`" class="pe-2">
                     <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-eye"></i></el-button>
-                  </router-link>
-                  <router-link :to="`/users/create/${row._id}`" class="pe-2">
-                    <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
                   </router-link>
                   <el-button class="btn btn-primary delete-btn table-icon-btn" @click="deleteUser(`${row._id}`)">
                     <i class="mdi mdi-delete" />

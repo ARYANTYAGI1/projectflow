@@ -67,3 +67,11 @@ export function getUserInfo(token) {
     method: 'get'
   })
 }
+
+export function createUser(data) {
+  return request({
+    url: '/users/add-user',
+    method: 'post',
+    data
+  })
+}
