@@ -26,15 +26,15 @@
             </el-table-column>
             <el-table-column align="center" :label="$t('company.status')" width="130">
               <template #default="scope">
-                <el-button v-if="scope.row.status == 'InActive'"  type="danger" size="small" style="pointer-events: none"
+                <el-button v-if="scope.row.status == 'InActive'"  type="danger" size="small" @click="openStatusDialog(scope.row, 'Active')" style="cursor: pointer;"
                   title="company.inactive" class="statusbtn">{{ $t("company.inactive") }}</el-button>
-                <el-button v-if="scope.row.status == 'Active'" type="success" size="small" style="pointer-events: none"
+                <el-button v-if="scope.row.status == 'Active'" type="success" size="small" @click="openStatusDialog(scope.row, 'Active')" style="cursor: pointer;"
                   title="company.active" class="statusbtn">{{ $t("company.active") }}</el-button>
               </template>
             </el-table-column>
             <el-table-column align="center" :label="$t('table.created_at')">
               <template #default="scope">{{
-                formatDate(scope.row.created_at)
+                formatDate(scope.row.createdAt)
               }}</template>
             </el-table-column>
             <el-table-column align="center" :label="$t('table.actions')" width="180">
@@ -64,6 +64,13 @@
             </div>
           </div>
         </div>
+        <el-dialog :visible.sync="statusDialogVisible" width="400px" title="Change Status">
+    <span> Are you sure to Change status ?</span>
+    <template #footer>
+      <el-button @click="statusDialogVisible = false">{{ $t('company.cancel') }}</el-button>
+      <el-button type="primary" @click="changeStatus">{{ $t('company.confirm') }}</el-button>
+    </template>
+  </el-dialog>
       </el-card>
     </section>
   </div>
@@ -77,6 +84,9 @@ export default {
   data() {
     return {
       listLoading: false,
+      statusDialogVisible: false,
+      selectedRow: null, 
+      newStatus: '',          
       listQuery: {
         page: 1,
         limit: 10,
@@ -97,9 +107,35 @@ export default {
     async getPageInfo() {
       this.listLoading = true
       const res = await getUsersList(this.listQuery)
+      console.log(res.data.data)
       this.userList = res.data.data
       this.total = res.data.totalCount
       this.listLoading = false
+    },
+    openStatusDialog(row, newStatus) {
+      this.selectedRow = row;
+      this.newStatus = newStatus;
+      this.statusDialogVisible = true;
+      console.log(this.statusDialogVisible
+
+      )
+    },
+    async changeStatus() {
+      try {
+        const response = await this.$axios.post('/api/changeStatus', {
+          userId: this.selectedRow._id,
+          status: this.newStatus
+        });
+        if (response.data.success) {
+          this.$message.success(this.$t('company.statusUpdated'));
+          this.selectedRow.status = this.newStatus; // Update status in the table
+          this.statusDialogVisible = false;        // Close the dialog
+        } else {
+          this.$message.error(this.$t('company.errorUpdatingStatus'));
+        }
+      } catch (error) {
+        this.$message.error(this.$t('company.errorUpdatingStatus'));
+      }
     },
     async handleFilter() {
       this.listLoading = true

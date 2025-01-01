@@ -74,7 +74,8 @@ module.exports = {
     const { email, password } = req.body;
     try {
       const user = await User.findOne({ email });
-      if (user && (await bcrypt.compare(password, user.password))) {
+      if (user  && (await bcrypt.compare(password, user.password))) {
+        if(user.status === 'Inactive') return res.status(400).send({ success: false, message: 'Your account is inactive. Please contact admin', data: null });
         const token = CommonHelper.generateToken(user)
         res.send({ success: true, message: 'Login Success', token: token, user: user._id, userType: user.userType });
       } else {
@@ -120,12 +121,11 @@ module.exports = {
       }
       const [totalCount, users] = await Promise.all([
         User.countDocuments(query),
-        User.find(query)
-          .sort('-created_at')
+        User.find(query).select('-password')
+          .sort('-createdAt')
           .skip(offset)
           .limit(parseInt(limit))
       ]);
-      console.log(users)
       return res.status(200).send({
         success: true,
         message: 'Success',

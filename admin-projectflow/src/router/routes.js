@@ -91,11 +91,11 @@ export default [
       return import('../views/pages/users/index.vue')
     }
   },
-  // {
-  //   path: '/users/create',
-  //   name: 'Users',
-  //   component: () => {
-  //     return import('../views/pages/users/create.vue')
-  //   }
-  // },
+  {
+    path: '/users/create',
+    name: 'CreateUser',
+    component: () => {
+      return import('../views/pages/users/create.vue')
+    }
+  },
 ]
