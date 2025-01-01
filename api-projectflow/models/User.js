@@ -5,12 +5,15 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['Admin', 'Project Manager', 'Team Member'], required: true },
-  userType: { type: Number, enum: [1,2,3], default: 3 },
+  organization: { type: String, required: true },
+  role: { type: String, enum: ['Admin', 'Project Manager', 'Team Member', 'Super Admin'], required: true },
+  userType: { type: Number, enum: [1,2,3,4], default: 3 },
   status: { type: String, enum: ['Active', 'InActive'], default: 'Active'},
   resetCode: { type: String },
   resetCodeExpires: { type: Date },
 },{ timestamps: true });
+
+userSchema.index({ email: 1, organization: 1 }, { unique: true });
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();

@@ -4,15 +4,36 @@ const MailHelper = require('../helpers/mail')
 const bcrypt = require('bcryptjs');
 const { registerValidationSchema } = require('../validations/userValidation');
 const crypto = require('crypto');
-
+const { changeStatus } = require('./ProjectController');
+require('dotenv').config();
 
 module.exports = {
+  createDefaultSuperAdmin: async () => {
+    try {  
+      const defaultSuperAdmin = {
+        name: process.env.SUPER_ADMIN_NAME || 'Default Super Admin',
+        email: process.env.SUPER_ADMIN_EMAIL || 'superadmin@yourdomain.com',
+        password: process.env.SUPER_ADMIN_PASSWORD || 'SuperAdmin123',
+        organization: process.env.SUPER_ADMIN_ORGANIZATION || 'Default Organization',
+        role: 'Super Admin',
+        userType: 4,
+        status: 'Active',
+      };
+      const salt = await bcrypt.genSalt(10);
+      defaultSuperAdmin.password = await bcrypt.hash(defaultSuperAdmin.password, salt);
+      const newSuperAdmin = new User(defaultSuperAdmin);
+      await newSuperAdmin.save();
+      console.log('Default Super Admin created successfully.');
+    } catch (error) {
+      console.error('Error creating Default Super Admin:', error.message);
+    }
+  },
   register: async (req, res) => {
     const { error } = registerValidationSchema.validate(req.body);
     if (error) {
       return res.status(400).send({ message: error.details[0].message });
     }
-    const { name, email, password } = req.body;
+    const { name, email, password, organization } = req.body;
     try {
       const checkUser = await User.findOne({email:email});
       if(checkUser) return res.status(400).send({ success:false, message: 'User Already Exsits', data: null });
@@ -22,7 +43,8 @@ module.exports = {
         password: password,
         role: "Admin",
         status: "Active",
-        userType: 1
+        userType: 1,
+        organization: organization
       })
       const savedUser =await user.save();
       console.log(savedUser)
@@ -32,23 +54,25 @@ module.exports = {
         data: user._id
       });
     } catch (error) {
+      console.log(error)
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
   createUser: async(req, res)=>{
     try {
-        const { name, email, password, role} = req.body;
+        const { name, email, password, role, organization} = req.body;
         const admin = req.user.role;
         if(!admin==='Admin') return res.status(400).send({ success:false, message: 'You have not access to perform this opertaion', data: null });
-        const checkUser = await User.findOne({email:email});
+        const checkUser = await User.findOne({ email, organization });
         if(checkUser) return res.status(400).send({ success:false, message: 'User Already Exsits', data: null });
         const user = new User({
           name: name,
           email: email,
           password: password,
           role: role,
-          userType: role === 'Project Manager' ? 1 : 2,
-          status: "Active"
+          userType: role === 'Project Manager' ? 2 : 3,
+          status: "Active",
+          organization: req.user.organization
         });
         const savedUser = await user.save();
         console.log(savedUser);
@@ -67,6 +91,7 @@ module.exports = {
           data: user._id
         });
     } catch (error) {
+      console.log(error)
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
@@ -209,5 +234,20 @@ module.exports = {
     } catch (error) {
         return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
     }
-  }
+  },
+  changeStatus: async (req, res) => { 
+    try {
+      const { id, status } = req.body;
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).send({ success: false, message: 'User not found', data: null });
+      }
+      user.status = status;
+      await user.save();
+      return res.status(200).send({ success: true, message: 'User status updated successfully', data: user._id });
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    }
+  },
 };

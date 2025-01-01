@@ -9,6 +9,11 @@ const app = express();
 app.use(express.json());
 require('./helpers/cron');
 
+
+// Default Super Admin
+const UserController = require('./controllers/UserController');
+// UserController.createDefaultSuperAdmin();
+
 const corsOptions = {
     origin: 'http://localhost:5002',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],

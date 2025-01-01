@@ -1,6 +1,10 @@
 const Joi = require('joi');
 
 const registerValidationSchema = Joi.object({
+  organization: Joi.string().required().messages({
+    'string.base': 'Organization should be a type of string',
+    'any.required': 'Organization is required'
+  }),
   name: Joi.string().min(3).required().messages({
     'string.base': 'Name should be a type of string',
     'string.min': 'Name should have at least 3 characters',

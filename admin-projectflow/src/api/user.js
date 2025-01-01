@@ -91,3 +91,11 @@ export const updateProfile = (opts) => {
     })
   })
 }
+
+export function changeStatus (data) {
+  return request({
+    url: '/users/change-status',
+    method: 'put',
+    data: data
+  })
+}

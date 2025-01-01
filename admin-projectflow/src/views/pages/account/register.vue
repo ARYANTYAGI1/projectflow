@@ -30,6 +30,13 @@
                             ref="registerForm"
                           >
                             <div class="form-group auth-form-group-custom mb-4">
+                              <el-form-item prop="organization">
+                                <el-input
+                                  type="text"
+                                  v-model="registerForm.organization"
+                                  placeholder="Enter Organization Name"
+                                />
+                              </el-form-item>
                               <el-form-item prop="name">
                                 <el-input
                                   type="name"
@@ -121,6 +128,13 @@ export default {
             trigger: "change",
           },
         ],
+        organization: [
+          {
+            required: true,
+            message: "Organization is required",
+            trigger: "change",
+          },
+        ],
       },
       addingRequest: false,
     };
@@ -138,8 +152,8 @@ export default {
             this.registerForm.email = "";
             return false;
           }
-          const { email, password, name } = this.registerForm;
-          const opts = { email, password, name };
+          const { email, password, name, organization } = this.registerForm;
+          const opts = { email, password, name, organization };
           this.addingRequest = true;
           doSignUp(opts)
             .then((response) => {
