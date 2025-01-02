@@ -10,6 +10,14 @@ export function getUsersList(query) {
   })
 }
 
+export function getUserProfile() {
+  return request({
+    url: '/users/profile',
+    method: 'get'
+  })
+}
+
+
 export function changePassword(data) {
   return request({
     url: '/password/change',

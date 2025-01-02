@@ -1,4 +1,5 @@
 import store from '@/state/store'
+import path from 'path'
 
 export default [
   {
@@ -78,10 +79,32 @@ export default [
     name: 'Dashboard',
     meta: {
       authRequired: true,
-      userType: [1,2,3]
+      userType: [1,2,3,4]
     },
     component: () => {
       return import('../views/pages/dashboard/index.vue')
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3,4]
+    },
+    component: () => {
+      return import('../views/pages/profile/profile.vue')
+    }
+  },
+  {
+    path: '/profile/update',
+    name: 'UpdateProfile',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3,4]
+    },
+    component: () => {
+      return import('../views/pages/profile/updateProfile.vue')
     }
   },
   {

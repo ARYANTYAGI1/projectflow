@@ -7,7 +7,7 @@
           <router-link to="/" class="logo logo-light text-center">
             <span class="logo-sm">
               <!-- <img src="@/assets/images/logo_white_WLP.png" alt height="30" /> -->
-              <h1 style="color: white;padding: 10px 0;margin-inline-start: -13px;">FE</h1>
+              <h1 style="color: white;padding: 10px 0;margin-inline-start: -13px;">PF</h1>
             </span>
             <span class="logo-lg text-center">
               <!-- <img src="@/assets/images/logo_white.png" alt height="45" /> -->
@@ -44,13 +44,6 @@
             </form>
           </div>
         </div>
-        <BDropdown variant="white" right toggle-class="header-item">
-          <template #button-content> <img class :src="flag" alt="Header Language" height="16" /> </template>
-          <BDropdownItem class="notify-item" v-for="(entry, i) in languages" :key="`Lang${i}`" :value="entry" @click="setLanguage(entry.language, entry.title, entry.flag)" :link-class="{ active: entry.language === current_language }">
-            <img :src="`${entry.flag}`" alt="user-image" class="me-1" height="12" />
-            <span class="align-middle">{{ entry.title }}</span>
-          </BDropdownItem>
-        </BDropdown>
         <BDropdown variant="white" right toggle-class="header-item" menu-class="dropdown-menu-end" class="d-inline-block user-dropdown">
           <template #button-content>
             <img class="rounded-circle header-profile-user" src="@/assets/images/user/user.jpg" alt="Header Avatar" />
@@ -58,7 +51,7 @@
             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
           </template>
           <!-- item-->
-          <BDropdownItem href="/">
+          <BDropdownItem href="/profile">
             <i class="ri-user-line align-middle me-1"></i>
             {{ $t("navbar.profile") }}
           </BDropdownItem>
