@@ -4,7 +4,6 @@ const MailHelper = require('../helpers/mail')
 const bcrypt = require('bcryptjs');
 const { registerValidationSchema } = require('../validations/userValidation');
 const crypto = require('crypto');
-const { changeStatus } = require('./ProjectController');
 require('dotenv').config();
 
 module.exports = {
@@ -250,4 +249,31 @@ module.exports = {
       return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
     }
   },
+  changePassword: async (req, res) => {
+    try {
+      console.log(req.body)
+      const { oldPassword, newPassword, confirmPassword } = req.body;
+      if (newPassword !== confirmPassword) {
+        return res.status(400).send({ success: false, message: 'Passwords do not match', data: null });
+      }
+      const user = await User.findById(req.user._id);
+      console.log(user)
+      if (!user) {
+        return res.status(404).send({ success: false, message: 'User not found', data: null });
+      }
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      console.log(isMatch)
+      if (!isMatch) {
+        return res.status(400).send({ success: false, message: 'Invalid current password', data: null });
+      }
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      user.password = hashedPassword;
+      await user.save();
+      res.status(200).send({ success: true, message: 'Password changed successfully', data: null });
+    } catch (error) {
+      console.log(error)
+      return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    }
+  }
 };

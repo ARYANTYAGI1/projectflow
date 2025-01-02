@@ -17,15 +17,6 @@ export function getUserProfile() {
   })
 }
 
-
-export function changePassword(data) {
-  return request({
-    url: '/password/change',
-    method: 'put',
-    data
-  })
-}
-
 export function verifyForgotPasswordCode(data) {
   console.log(data)
   return request({
@@ -103,6 +94,14 @@ export const updateProfile = (opts) => {
 export function changeStatus (data) {
   return request({
     url: '/users/change-status',
+    method: 'put',
+    data: data
+  })
+}
+
+export function changePassword (data) {
+  return request({
+    url: '/users/password-change',
     method: 'put',
     data: data
   })

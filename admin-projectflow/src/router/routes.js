@@ -110,6 +110,10 @@ export default [
   {
     path: '/users',
     name: 'Users',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3,4]
+    },
     component: () => {
       return import('../views/pages/users/index.vue')
     }
@@ -117,8 +121,23 @@ export default [
   {
     path: '/users/create',
     name: 'CreateUser',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3,4]
+    },
     component: () => {
       return import('../views/pages/users/create.vue')
     }
   },
+  {
+    path: '/change-password',
+    name: 'ChangePassword',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3,4]
+    },
+    component: () => {
+      return import('../views/pages/change-password.vue')
+    }
+  }
 ]
