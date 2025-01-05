@@ -4,7 +4,7 @@ export const menuItems = [
     label: 'Dashboard',
     icon: 'ri-user-fill',
     link: '/',
-    userType: [1,2,3]
+    userType: [1,2,3,4]
   },
   {
     id: 2,

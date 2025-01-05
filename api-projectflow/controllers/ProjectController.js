@@ -16,7 +16,8 @@ module.exports = {
                 description,
                 createdBy: req.user._id,
                 members,
-                status: req.body.status || 'Active'
+                status: req.body.status || 'Active',
+                organization: req.user.organization
             });
             await project.save();
             const memberDetails = await User.find({ _id: { $in: members } });
@@ -120,54 +121,55 @@ module.exports = {
             return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
         }
     },
-    getProjectList:  async (req, res) => {
+    getProjectList: async (req, res) => {
         try {
             let query = {};
-            var offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
-            var limit = req.query.limit ? req.query.limit : 10;
-            const user = req.user;
-            const userOrganization = user.organization;
-            query['createdBy.organization'] = userOrganization;
-            
-            if (!query.$and) {
-            query.$and = [];
+            const offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
+            const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+            if (!query.$and) query.$and = [];
+            if (req.user.organization) {
+                query.$and.push({ organization: req.user.organization });
             }
             if (req.query.name) {
-            var name = req.query.name;
-            query.$and.push({
-                '$or': [
-                { name: { $regex: new RegExp(name.toLowerCase(), 'i') } },
-                { description: { $regex: new RegExp(name.toLowerCase(), 'i') } }
-                ]
-            });
+                const name = req.query.name;
+                if (!query.$and) query.$and = [];
+                query.$and.push({
+                    $or: [
+                        { name: { $regex: new RegExp(name, 'i') } },
+                        { description: { $regex: new RegExp(name, 'i') } }
+                    ]
+                });
             }
             if (req.query.status) {
-            query.$and.push({ status: req.query.status });
+                query.status = req.query.status;
             }
-            const [totalCount, project] = await Promise.all([
-            Project.countDocuments(query),
-            Project.find(query)
-                .populate('createdBy', 'name email')
-                .populate('members', 'name email')
-                .sort('-createdAt')
-                .skip(offset)
-                .limit(parseInt(limit))
-            ]);
-        
+            if (!query.$and.length) {
+                console.log('here')
+                query = {};
+            }
+            const [totalCount, projects] = await Promise.all([
+                Project.countDocuments(query),
+                Project.find(query)
+                    .populate('createdBy', 'name email organization')
+                    .populate('members', 'name email')
+                    .sort('-createdAt')
+                    .skip(offset)
+                    .limit(limit)
+            ]); 
             return res.status(200).send({
-            success: true,
-            message: 'Success',
-            data: project,
-            totalCount
+                success: true,
+                message: 'Projects retrieved successfully',
+                data: projects,
+                totalCount
             });
         } catch (error) {
             return res.status(500).send({
-            success: false,
-            message: 'Internal Server Error',
-            data: error.message
+                success: false,
+                message: 'Internal Server Error',
+                error: error.message
             });
         }
-    },    
+    },     
     getProjectDetail: async (req, res) => {
         try {
             const projectId = req.params.id;
