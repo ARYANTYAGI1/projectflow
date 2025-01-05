@@ -31,7 +31,7 @@ const sendEmail = async (to, name, subject, templateName, context) => {
     });
     try {
         const result = await request;
-        console.log('Email sent successfully:', result.body);
+        console.log('Email sent successfully');
     } catch (error) {
         console.error('Error sending email:', error);
     }

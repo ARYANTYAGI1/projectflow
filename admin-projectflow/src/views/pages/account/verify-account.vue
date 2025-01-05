@@ -55,7 +55,6 @@ export default {
               type: 'success'
             })
           }).catch((error) => {
-            console.log(error, 'error')
             this.resmessage = error.message
             this.addingRequest = false
             this.$message({

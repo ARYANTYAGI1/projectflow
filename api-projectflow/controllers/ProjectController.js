@@ -28,7 +28,6 @@ module.exports = {
                 };
                 await MailHelper.sendEmail( member.email,member.name, 'New Project Shared With You','project-shared', emailContext);
             });
-            console.log('Project created successfully');
             return res.status(201).send({ success: true, message: 'Project created successfully', data: null});
         } catch (error) {
             return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
@@ -128,7 +127,6 @@ module.exports = {
             var limit = req.query.limit ? req.query.limit : 10;
             const user = req.user;
             const userOrganization = user.organization;
-            console.log(userOrganization)
             query['createdBy.organization'] = userOrganization;
             
             if (!query.$and) {
@@ -163,7 +161,6 @@ module.exports = {
             totalCount
             });
         } catch (error) {
-            console.log(error);
             return res.status(500).send({
             success: false,
             message: 'Internal Server Error',
@@ -173,7 +170,6 @@ module.exports = {
     },    
     getProjectDetail: async (req, res) => {
         try {
-            console.log(req.params.id)
             const projectId = req.params.id;
             const { role, _id } = req.user;
             let project;

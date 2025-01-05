@@ -46,14 +46,12 @@ module.exports = {
         organization: organization
       })
       const savedUser =await user.save();
-      console.log(savedUser)
       return res.status(200).send({
         success: true,
         message: "Admin Created Successfully",
         data: user._id
       });
     } catch (error) {
-      console.log(error)
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
@@ -74,7 +72,6 @@ module.exports = {
           organization: req.user.organization
         });
         const savedUser = await user.save();
-        console.log(savedUser);
         const loginUrl = 'http://yourdomain.com/login';
         const emailContext = {
           name: user.name,
@@ -90,7 +87,6 @@ module.exports = {
           data: user._id
         });
     } catch (error) {
-      console.log(error)
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
@@ -106,7 +102,6 @@ module.exports = {
         res.status(400).send({ success: false, message: 'Invalid credentials', data: null });
       }
     } catch (error) {
-      console.log(error)
       res.status(500).send({ success:false, message: 'Internal Server Error', data: error.message });
     }
   },
@@ -158,7 +153,6 @@ module.exports = {
         totalCount
       })
     } catch (error) {
-      console.error(err);
       return res.status(500).send({
         success: false,
         message: 'Something Went Wrong',
@@ -168,7 +162,6 @@ module.exports = {
   },
   resetCodeEmail: async (req, res) => {
     try {
-      console.log(req.body)
         const { email } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
@@ -193,20 +186,17 @@ module.exports = {
 
         return res.status(200).send({ success: true, message: 'Reset code sent successfully', data: null });
     } catch (error) {
-      console.log(error)
         return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
     }
   },
   verifyResetCode: async (req, res) => {
     try {
-        console.log(req.body);
         const { email, code } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).send({ success: false, message: 'User not found', data: null });
         }
         if (user.resetCode !== code) {
-          console.log('Invalid or expired reset code', code, user.resetCode)
             return res.status(400).send({ success: false, message: 'Invalid or expired reset code', data: null });
         }
         user.resetCode = '',
@@ -246,24 +236,20 @@ module.exports = {
       await user.save();
       return res.status(200).send({ success: true, message: 'User status updated successfully', data: user._id });
     } catch (error) {
-      console.log(error)
       return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
     }
   },
   changePassword: async (req, res) => {
     try {
-      console.log(req.body)
       const { oldPassword, newPassword, confirmPassword } = req.body;
       if (newPassword !== confirmPassword) {
         return res.status(400).send({ success: false, message: 'Passwords do not match', data: null });
       }
       const user = await User.findById(req.user._id);
-      console.log(user)
       if (!user) {
         return res.status(404).send({ success: false, message: 'User not found', data: null });
       }
       const isMatch = await bcrypt.compare(oldPassword, user.password);
-      console.log(isMatch)
       if (!isMatch) {
         return res.status(400).send({ success: false, message: 'Invalid current password', data: null });
       }
@@ -272,9 +258,7 @@ module.exports = {
       user.password = hashedPassword;
       await user.save();
       res.status(200).send({ success: true, message: 'Password changed successfully', data: null });
-    } catch (error) {
-      console.log(error)
-      return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    } catch (error) {      return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
     }
   },
   getMemberList:  async (req, res) => {
@@ -291,7 +275,6 @@ module.exports = {
         data: members,
       });
     } catch (error) {
-      console.error('Error fetching members:', error);
       return res.status(500).send({
         success: false,
         message: 'Something went wrong while fetching members',

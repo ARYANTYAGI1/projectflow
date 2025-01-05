@@ -18,7 +18,6 @@ export function getUserProfile() {
 }
 
 export function verifyForgotPasswordCode(data) {
-  console.log(data)
   return request({
     url: '/users/verify-code',
     method: 'put',

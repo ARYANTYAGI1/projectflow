@@ -92,7 +92,6 @@ export default {
     this.detailLoading = true
     getMemberList().then(response => {
       this.membersList = response.data.data
-      console.log(this.membersList)
       this.detailLoading = false
     }).catch(error => {
       this.detailLoading = false

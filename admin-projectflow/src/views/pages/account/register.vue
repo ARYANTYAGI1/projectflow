@@ -165,7 +165,6 @@ export default {
               this.$router.push("/login");
             })
             .catch((error) => {
-              console.log(error);
               this.addingRequest = false;
               this.$message({
                 type: "error",

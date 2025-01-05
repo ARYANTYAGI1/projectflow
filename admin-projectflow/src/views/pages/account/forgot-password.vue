@@ -161,7 +161,6 @@ export default {
           verifyForgotPasswordCode({ code: this.otpForm.otp, email:this.emailForm.email}).then(response => {
             this.loading = false
             this.userData = response.data.data
-            console.log(this.userData)
             this.$message({
               message: response.data.message,
               type: 'success'

@@ -51,10 +51,8 @@ const user = {
   },
   actions: {
     loginByUsername({ commit }, userInfo) {
-      console.log(userInfo)
       return new Promise((resolve, reject) => {
         loginByUsername(userInfo.email, userInfo.password).then(response => {
-          console.log(response)
           commit('SET_TOKEN', response.data.token)
           setToken(response.data.token)
           resolve(response.data)
@@ -74,7 +72,6 @@ const user = {
             reject('Verification failed, please login again.')
           }
           const data = response.data.data
-          console.log(data)
           commit('SET_USERID', data._id)
           commit('SET_LOGGEDIN', true)
           commit('SET_IS_PROILE_COMPLETE', data.isProfileComplete)

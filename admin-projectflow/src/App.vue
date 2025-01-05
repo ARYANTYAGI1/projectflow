@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     checkRoute(pageName) {
-      console.log('PageNAme', pageName)
       if (['Login', 'Forgot-password', 'Register', 'VerifyAccount', undefined].indexOf(pageName) > -1) {
         this.showLayout = true
       } else {

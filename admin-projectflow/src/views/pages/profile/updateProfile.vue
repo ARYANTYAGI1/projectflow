@@ -178,7 +178,6 @@ export default {
             this.getUserProfile()
             this.$router.push('/profile')
           }).catch(error => {
-            console.log(error, 'error')
             this.addingRequest = false
           })
         } else {

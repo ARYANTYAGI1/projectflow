@@ -28,7 +28,6 @@ export function forgotPassword(data) {
 }
 
 export function resetPassword(data) {
-  console.log(data)
   return request({
     url: '/users/reset-password',
     method: 'put',
@@ -61,7 +60,6 @@ export function doSignUp(data) {
 }
 
 export function getUserInfo(token) {
-  console.log('token', token)
   return request({
     url: '/users/profile',
     method: 'get'

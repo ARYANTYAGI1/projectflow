@@ -20,7 +20,6 @@ router.afterEach((to, from) => {
 })
 // Before each route evaluates...
 router.beforeEach((routeTo, routeFrom, next) => {
-  console.log(routeTo);
   document.title = routeTo.name ? `${routeTo.name} | ProjectFlow` : 'ProjectFlow'
 
   const publicPages = ['/login', '/forgot-password', '/account/verify', '/register']
@@ -31,18 +30,14 @@ router.beforeEach((routeTo, routeFrom, next) => {
     return next('/')
   }
   if (authPage && !loggedUser) {
-    console.log('User is not authenticated, redirecting to login')
     return next('/login')
   }
   // Convert both to Number for consistent comparison
   const userTypeNum = Number(userType);
-  console.log('User type:', userTypeNum)
   const allowedUserTypes = routeTo.meta.userType?.map(Number);
-  console.log('Allowed user types:', allowedUserTypes)
   // Check user type access
   if (allowedUserTypes && !allowedUserTypes.includes(userTypeNum)) {
     if(userTypeNum == 1) {
-      console.log(userTypeNum);
       return next('/dashboard');
     }
     else {
@@ -53,7 +48,6 @@ router.beforeEach((routeTo, routeFrom, next) => {
 })
 
 router.beforeResolve(async(routeTo, routeFrom, next) => {
-  console.log('Resolving route to', routeTo.path)
   try {
     for (const route of routeTo.matched) {
       await new Promise((resolve, reject) => {

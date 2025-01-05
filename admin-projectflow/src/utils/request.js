@@ -20,7 +20,6 @@ service.interceptors.request.use(
   },
   error => {
     // Do something with request error
-    console.log(error) // for debug
     Promise.reject(error)
   }
 )
