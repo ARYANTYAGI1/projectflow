@@ -121,8 +121,9 @@ module.exports = {
   },
   getUsersList: async (req, res) => {
     try {
-      console.log(req.query);
-      var query = {};
+      let query = {
+        $and: [{ organization: req.user.organization }],
+      };
       var offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
       var limit = req.query.limit ? req.query.limit : 10;
       if (!query.$and) {
@@ -274,6 +275,28 @@ module.exports = {
     } catch (error) {
       console.log(error)
       return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+    }
+  },
+  getMemberList:  async (req, res) => {
+    try {
+      const query = {
+        organization: req.user.organization,
+        userType: { $in: [2, 3] },
+        status: 'Active',
+      };
+      const members = await User.find(query).select('_id name');
+      return res.status(200).send({
+        success: true,
+        message: 'Members fetched successfully',
+        data: members,
+      });
+    } catch (error) {
+      console.error('Error fetching members:', error);
+      return res.status(500).send({
+        success: false,
+        message: 'Something went wrong while fetching members',
+        error: error.message,
+      });
     }
   }
 };

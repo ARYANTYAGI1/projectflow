@@ -16,7 +16,7 @@ module.exports = {
                 description,
                 createdBy: req.user._id,
                 members,
-                status: 'Active'
+                status: req.body.status || 'Active'
             });
             await project.save();
             const memberDetails = await User.find({ _id: { $in: members } });
@@ -28,6 +28,7 @@ module.exports = {
                 };
                 await MailHelper.sendEmail( member.email,member.name, 'New Project Shared With You','project-shared', emailContext);
             });
+            console.log('Project created successfully');
             return res.status(201).send({ success: true, message: 'Project created successfully', data: null});
         } catch (error) {
             return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
@@ -120,20 +121,56 @@ module.exports = {
             return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
         }
     },
-    getProjects: async (req, res) => {
+    getProjectList:  async (req, res) => {
         try {
-            const { role, _id } = req.user;
-            let projects;
-            if (role === 'Admin') {
-                projects = await Project.find({}).populate('createdBy', 'name email').populate('members', 'name email')
-            } else {
-                projects = await Project.find({ members: _id }).populate('createdBy', 'name email').populate('members', 'name email');
+            let query = {};
+            var offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
+            var limit = req.query.limit ? req.query.limit : 10;
+            const user = req.user;
+            const userOrganization = user.organization;
+            console.log(userOrganization)
+            query['createdBy.organization'] = userOrganization;
+            
+            if (!query.$and) {
+            query.$and = [];
             }
-            return res.status(200).send({ success: true, message: 'Projects retrieved successfully', data: projects });
+            if (req.query.name) {
+            var name = req.query.name;
+            query.$and.push({
+                '$or': [
+                { name: { $regex: new RegExp(name.toLowerCase(), 'i') } },
+                { description: { $regex: new RegExp(name.toLowerCase(), 'i') } }
+                ]
+            });
+            }
+            if (req.query.status) {
+            query.$and.push({ status: req.query.status });
+            }
+            const [totalCount, project] = await Promise.all([
+            Project.countDocuments(query),
+            Project.find(query)
+                .populate('createdBy', 'name email')
+                .populate('members', 'name email')
+                .sort('-createdAt')
+                .skip(offset)
+                .limit(parseInt(limit))
+            ]);
+        
+            return res.status(200).send({
+            success: true,
+            message: 'Success',
+            data: project,
+            totalCount
+            });
         } catch (error) {
-            return res.status(500).send({ success: false, message: 'Internal Server Error',data: error.message});
+            console.log(error);
+            return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error',
+            data: error.message
+            });
         }
-    },
+    },    
     getProjectDetail: async (req, res) => {
         try {
             console.log(req.params.id)

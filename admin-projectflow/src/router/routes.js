@@ -139,5 +139,27 @@ export default [
     component: () => {
       return import('../views/pages/change-password.vue')
     }
+  },
+  {
+    path: '/projects',
+    name: 'Projects',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3]
+    },
+    component: () => {
+      return import('../views/pages/projects/index.vue')
+    }
+  },
+  {
+    name: 'CreateProject',
+    path: '/projects/create',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3]
+    },
+    component: () => {
+      return import('../views/pages/projects/create.vue')
+    }
   }
 ]
