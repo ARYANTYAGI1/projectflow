@@ -37,6 +37,20 @@
             <el-table-column align="center" :label="$t('table.created_at')">
               <template #default="scope">{{ formatDate(scope.row.createdAt) }}</template>
             </el-table-column>
+            <el-table-column align="center" label="Actions" width="180">
+              <template #default="{ row }">
+                <div class="d-flex justify-content-center">
+                  <div class="pe-2">
+                    <el-button class="btn btn-primary table-icon-btn" @click="viewProject(row)">
+                      <i class="mdi mdi-eye"></i>
+                    </el-button>
+                  </div>
+                  <router-link :to="`/project/create/${row._id}`" class="pe-2">
+                    <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
+                  </router-link>
+                </div>
+              </template>
+            </el-table-column>
           </el-table>
           <div v-show="total > listQuery.limit" class="page-pagination">
             <div class="pagination-container">
@@ -44,7 +58,7 @@
                 background
                 v-model="listQuery.page"
                 :page-size="listQuery.limit"
-                :total="total"
+                :total="total" 
                 layout="prev, pager, next"
                 @current-change="handlePageChange"
               ></el-pagination>
@@ -60,36 +74,29 @@
             </div>
           </div>
         </div>
-        <el-dialog
-          v-model="statusDialogVisible"
-          width="400px"
-          title="Change Status"
-        >
-          <span>Are you sure to change the status?</span>
-          <template #footer>
-            <el-button @click="statusDialogVisible = false">
-              {{ $t('company.cancel') }}
-            </el-button>
-            <el-button type="primary" @click="changeStatus">
-              {{ $t('company.confirm') }}
-            </el-button>
-          </template>
-        </el-dialog>
-
       </el-card>
+      <el-dialog v-model="detailModal" width="400px" title="Project Details" >
+      <div>
+        <p><strong>Name:</strong> {{ detailData.name }}</p>
+        <p><strong>Description:</strong> {{ detailData.description }}</p>
+        <p><strong>Members:</strong> {{ detailData.members.map(member => member.name).join(', ') }}</p>
+        <p><strong>Status:</strong> {{ detailData.status }}</p>
+        <p><strong>Created At:</strong> {{ formatDate(detailData.createdAt) }}</p>
+      </div>
+      </el-dialog>
     </section>
   </div>
 </template>
 
 <script>
-import { getProjectList } from "@/api/project";
+import { getProjectList, getProjectDetail } from "@/api/project";
 
 export default {
   data() {
     return {
       listLoading: false,
-      statusDialogVisible: false,
-      selectedRow: null,
+      detailModal: false,
+      detailData: {},
       newStatus: "",
       listQuery: {
         page: 1,
@@ -134,7 +141,6 @@ export default {
       this.listLoading = true;
       const res = await getProjectList(this.listQuery);
       this.projectList = res.data.data;
-      console.log(this.projectList);
       this.total = res.data.totalCount;
       this.listLoading = false;
     },
@@ -142,21 +148,14 @@ export default {
       this.listQuery.page = page;
       await this.handleFilter();
     },
+    async viewProject(row) {
+      const res = await getProjectDetail(row._id);
+      this.detailData = res.data.data;
+      this.detailModal = true
+    },
     formatDate(value) {
       return this.$filters.formatDate(value);
     },
-    handleStatusChange(row, newStatus) {
-      // Make API call to change status
-      // Example:
-      // axios.post('/api/changeStatus', { id: row.id, status: newStatus })
-      //   .then(response => {
-      //     row.status = newStatus;
-      //   })
-      //   .catch(error => {
-      //     console.error(error);
-      //   });
-      row.status = newStatus; // Update status locally for now
-    }
   },
 };
 </script>

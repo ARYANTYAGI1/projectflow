@@ -123,6 +123,7 @@ module.exports = {
     },
     getProjectList: async (req, res) => {
         try {
+            console.log(req.query)
             let query = {};
             const offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
             const limit = req.query.limit ? parseInt(req.query.limit) : 10;

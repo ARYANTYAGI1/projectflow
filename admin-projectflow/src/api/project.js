@@ -17,9 +17,17 @@ export function createProject(data) {
   })
 }
 
-export function getProjectList() {
+export function getProjectList(query) {
   return request({
     url: '/project/list',
-    method: 'get'
+    method: 'get',
+    params: query
+  })
+}
+
+export function getProjectDetail(id) {
+  return request({
+    url: '/project/detail/' + id,
+    method: 'get',
   })
 }
