@@ -149,5 +149,16 @@ export default [
     component: () => {
       return import('../views/pages/projects/create.vue')
     }
+  },
+  {
+    name: 'Update Project',
+    path: '/projects/create/:id',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3]
+    },
+    component: () => {
+      return import('../views/pages/projects/create.vue')
+    }
   }
 ]

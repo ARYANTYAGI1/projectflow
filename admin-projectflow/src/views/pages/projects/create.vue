@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { getMemberList, createProject} from '@/api/project'
+import { getMemberList, createProject, getProjectDetail, updateProject } from '@/api/project'
 export default {
   page: {
     title: 'Add Project',
@@ -97,27 +97,36 @@ export default {
       this.detailLoading = false
       this.$message.error(error.message)
     })
+    this.id = this.$route.params.id || ''
+    if (this.id) {
+      getProjectDetail(this.id).then(response => {
+      this.projectForm = response.data.data
+      }).catch(error => {
+      this.$message.error(error.message)
+      })
+    }
   },
   methods: {
     addProject(formName) {
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          const { name, description, members, status } = this.projectForm
-          const opts = { name, description, members, status }
-          this.addingRequest = true
-          createProject(opts).then(response => {
-            this.addingRequest = false
-            this.$router.push({ path: '/projects' })
-            this.$refs[formName].resetFields()
-            this.$message({ type: 'success', message: response.data.message })
-          }).catch(error => {
-            this.addingRequest = false
-            this.$message.error(error.message)
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      if (valid) {
+        const { name, description, members, status, _id } = this.projectForm
+        const opts = { name, description, members, status }
+        this.addingRequest = true
+        const request = _id ? updateProject(_id, opts) : createProject(opts)
+        request.then(response => {
+        this.addingRequest = false
+        this.$router.push({ path: '/projects' })
+        this.$refs[formName].resetFields()
+        this.$message({ type: 'success', message: response.data.message })
+        }).catch(error => {
+        this.addingRequest = false
+        this.$message.error(error.message)
+        })
+      } else {
+        console.log('error submit!!')
+        return false
+      }
       })
     }
   }

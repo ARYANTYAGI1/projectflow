@@ -37,13 +37,13 @@ module.exports = {
     updateProject: async (req, res) => {
         try {
             const { role } = req.user;
-            const { projectId, name, description, members } = req.body;
+            const {name, description, members, status } = req.body;
     
             if (role !== 'Admin') {
                 return res.status(403).send({ success: false, message: 'Only Admin can update a project', data: null });
             }
     
-            const project = await Project.findById(projectId);
+            const project = await Project.findById(req.params.id);
     
             if (!project) {
                 return res.status(404).send({ success: false, message: 'Project not found', data: null });
@@ -52,46 +52,47 @@ module.exports = {
             const currentMembers = project.members.map((id) => id.toString());
             const newMembers = members.filter((id) => !currentMembers.includes(id));
             const removedMembers = currentMembers.filter((id) => !members.includes(id));
-    
             project.name = name || project.name;
             project.description = description || project.description;
             project.members = members || project.members;
+            project.status = status || project.status;
     
             await project.save();
     
-            if (newMembers.length > 0) {
-                const addedMemberDetails = await User.find({ _id: { $in: newMembers } });
-                addedMemberDetails.forEach(async (member) => {
-                    const emailContext = {
-                        projectName: project.name,
-                        description: project.description,
-                        userName: member.name,
-                    };
-                    await MailHelper.sendEmail(
-                        member.email,
-                        member.name,
-                        'You Have Been Added to a Project',
-                        'project-added',
-                        emailContext
-                    );
-                });
-            }
-            if (removedMembers.length > 0) {
-                const removedMemberDetails = await User.find({ _id: { $in: removedMembers } });
-                removedMemberDetails.forEach(async (member) => {
-                    const emailContext = {
-                        projectName: project.name,
-                        userName: member.name,
-                    };
-                    await MailHelper.sendEmail(
-                        member.email,
-                        member.name,
-                        'You Have Been Removed from a Project',
-                        'project-removed',
-                        emailContext
-                    );
-                });
-            }
+            // if (newMembers.length > 0) {
+            //     const addedMemberDetails = await User.find({ _id: { $in: newMembers } });
+            //     addedMemberDetails.forEach(async (member) => {
+            //         const emailContext = {
+            //             projectName: project.name,
+            //             description: project.description,
+            //             userName: member.name,
+            //         };
+            //         await MailHelper.sendEmail(
+            //             member.email,
+            //             member.name,
+            //             'You Have Been Added to a Project',
+            //             'project-added',
+            //             emailContext
+            //         );
+            //     });
+            // }
+
+            // if (removedMembers.length > 0) {
+            //     const removedMemberDetails = await User.find({ _id: { $in: removedMembers } });
+            //     removedMemberDetails.forEach(async (member) => {
+            //         const emailContext = {
+            //             projectName: project.name,
+            //             userName: member.name,
+            //         };
+            //         await MailHelper.sendEmail(
+            //             member.email,
+            //             member.name,
+            //             'You Have Been Removed from a Project',
+            //             'project-removed',
+            //             emailContext
+            //         );
+            //     });
+            // }
     
             return res.status(200).send({
                 success: true,
@@ -123,7 +124,6 @@ module.exports = {
     },
     getProjectList: async (req, res) => {
         try {
-            console.log(req.query)
             let query = {};
             const offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
             const limit = req.query.limit ? parseInt(req.query.limit) : 10;
@@ -145,7 +145,6 @@ module.exports = {
                 query.status = req.query.status;
             }
             if (!query.$and.length) {
-                console.log('here')
                 query = {};
             }
             const [totalCount, projects] = await Promise.all([

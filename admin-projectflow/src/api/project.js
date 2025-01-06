@@ -31,3 +31,11 @@ export function getProjectDetail(id) {
     method: 'get',
   })
 }
+
+export function updateProject(id, data) {
+  return request({
+    url: '/project/update-project/' + id,
+    method: 'put',
+    data: data
+  })
+}

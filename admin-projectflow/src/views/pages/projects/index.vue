@@ -45,7 +45,7 @@
                       <i class="mdi mdi-eye"></i>
                     </el-button>
                   </div>
-                  <router-link :to="`/project/create/${row._id}`" class="pe-2">
+                  <router-link :to="`/projects/create/${row._id}`" class="pe-2">
                     <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
                   </router-link>
                 </div>
