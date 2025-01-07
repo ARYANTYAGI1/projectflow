@@ -10,7 +10,7 @@
               @keyup="handleFilter()"
             />
           </div>
-          <div class="d-flex">
+          <div v-if="userType==1" class="d-flex">
             <router-link to="/projects/create">
               <el-button class="btn btn-primary me-2 w-100">
                 Add Project
@@ -45,9 +45,11 @@
                       <i class="mdi mdi-eye"></i>
                     </el-button>
                   </div>
-                  <router-link :to="`/projects/create/${row._id}`" class="pe-2">
-                    <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
-                  </router-link>
+                  <div v-if="userType==1">
+                    <router-link :to="`/projects/create/${row._id}`" class="pe-2">
+                      <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
+                    </router-link>
+                  </div>
                 </div>
               </template>
             </el-table-column>
@@ -90,6 +92,7 @@
 
 <script>
 import { getProjectList, getProjectDetail } from "@/api/project";
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -111,6 +114,10 @@ export default {
     totalPages() {
       return Math.ceil(this.total / this.listQuery.limit);
     },
+    ...mapGetters([
+      'userType',
+      'userid'
+    ])
   },
   created() {
     this.getPageInfo();
