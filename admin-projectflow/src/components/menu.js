@@ -20,5 +20,13 @@ export const menuItems = [
     link: '/projects',
     userType: [1,2,3]
   },
+  {
+    id: 4,
+    label: 'Tasks',
+    icon: 'ri-user-fill',
+    link: '/tasks',
+    userType: [1,2,3]
+  },
+  
 ]
 

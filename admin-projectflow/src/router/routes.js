@@ -160,5 +160,29 @@ export default [
     component: () => {
       return import('../views/pages/projects/create.vue')
     }
-  }
+  },
+  {
+    name: 'CreateTask',
+    path: '/tasks/create',
+    meta: {
+      meta: {
+        authRequired: true,
+        userType: [1,2,3]
+      },
+      component: () => {
+        return import('../views/pages/tasks/create.vue')
+      }
+    }
+  },
+  {
+    path: '/tasks',
+    name: 'Tasks',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3]
+    },
+    component: () => {
+      return import('../views/pages/tasks/index.vue')
+    }
+  },
 ]
