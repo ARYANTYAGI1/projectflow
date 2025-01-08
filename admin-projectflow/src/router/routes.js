@@ -162,19 +162,6 @@ export default [
     }
   },
   {
-    name: 'CreateTask',
-    path: '/tasks/create',
-    meta: {
-      meta: {
-        authRequired: true,
-        userType: [1,2,3]
-      },
-      component: () => {
-        return import('../views/pages/tasks/create.vue')
-      }
-    }
-  },
-  {
     path: '/tasks',
     name: 'Tasks',
     meta: {
@@ -184,5 +171,16 @@ export default [
     component: () => {
       return import('../views/pages/tasks/index.vue')
     }
+  },
+  {
+    name: 'CreateTask',
+    path: '/tasks/create',
+      meta: {
+        authRequired: true,
+        userType: [1,2,3]
+      },
+      component: () => {
+        return import('../views/pages/tasks/create.vue')
+      }
   },
 ]
