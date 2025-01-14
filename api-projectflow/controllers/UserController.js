@@ -179,7 +179,7 @@ module.exports = {
         await MailHelper.sendEmail(
             user.email,
             user.name,
-            'Reset Your TaskFlow Password',
+            'Reset Your ProjectFlow Password',
             'reset-password',
             emailContext
         );
