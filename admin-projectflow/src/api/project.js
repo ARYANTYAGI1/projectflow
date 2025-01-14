@@ -46,3 +46,10 @@ export function getProjects() {
     method: 'get'
   })
 }
+
+export function getProjectMembers(id) {
+  return request({
+    url: '/project/project-members/' + id,
+    method: 'get'
+  })
+}

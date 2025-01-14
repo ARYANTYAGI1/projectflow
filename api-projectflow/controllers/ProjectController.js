@@ -209,19 +209,21 @@ module.exports = {
     },
     getProjects: async (req,res) =>{
         try {
-            let query = {};
-            const { role, organization } = req.user;
-            if (!query.$and) query.$and = [];
-            if (req.user.organization) {
-                query.$and.push({ organization: req.user.organization });
+            const user = req.user;
+            const { organization, role, _id } = user;
+            let projects;
+        
+            if (role === 'Admin') {
+              projects = await Project.find(
+                { organization },
+                { name: 1 }
+              );
+            } else {
+              projects = await Project.find(
+                { organization, members: _id },
+                { name: 1 }
+              );
             }
-            if (req.user.role !== 'admin') {
-                query.members = req.user._id;
-            }
-            if (!query.$and.length) {
-                query = {};
-            }
-            const projects = await Project.find(query).select('_id name');
             return res.status(200).send({
                 success: true,
                 message: 'Projects retrieved successfully',
@@ -234,5 +236,27 @@ module.exports = {
                 data: error.message
             });
         }
-    }     
+    },
+    getProjectMembers: async (req, res) => {
+        try {
+          const { id } = req.params;
+          const project = await Project.findById(id)
+            .populate('members', 'name email')
+            .exec();
+          if (!project) {
+            return res.status(404).send({ success: false, message: 'Project not found', data: null });
+          }
+      
+          res.status(200).send({
+            success: true,
+            data: project.members,
+          });
+        } catch (error) {
+            return res.status(500).send({
+                success: false,
+                message: 'Internal Server Error',
+                data: error.message
+            });
+        }
+      }  
 }

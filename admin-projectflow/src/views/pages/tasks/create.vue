@@ -18,8 +18,8 @@
                 </el-row>
                 <el-row :gutter="20">
                 <el-col :md="12">
-                    <el-form-item label="Project" prop="project">
-                    <el-select v-model="taskForm.project" placeholder="Select Project">
+                    <el-form-item label="Project"  prop="project" >
+                    <el-select v-model="taskForm.project" @change="fetchProjectMembers" placeholder="Select Project">
                         <el-option
                         v-for="project in projectList"
                         :key="project._id"
@@ -30,8 +30,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :md="12">
-                    <el-form-item label="Assigned To" prop="assignedTo">
-                    <el-select v-model="taskForm.assignedTo" placeholder="Assign User">
+                    <el-form-item label="Assigned To"  prop="assignedTo">
+                    <el-select v-model="taskForm.assignedTo" :disabled="!taskForm.project" placeholder="Assign User">
                         <el-option
                         v-for="member in membersList"
                         :key="member._id"
@@ -96,7 +96,7 @@
 
     <script>
     //   import { getMemberList, getProjectList, createTask, getTaskDetail, updateTask } from '@/api/task'
-    import { getProjects} from '@/api/project';
+    import { getProjects , getProjectMembers, createTask } from '@/api/project';
 
     export default {
     page: {
@@ -162,6 +162,11 @@
     //   }
     },
     methods: {
+    async fetchProjectMembers(id){
+        if(!id) this.membersList = []
+        const response = await getProjectMembers(id);
+        this.membersList = response.data.data;
+    }
     //   addTask(formName) {
     //     this.$refs[formName].validate((valid) => {
     //       if (valid) {
