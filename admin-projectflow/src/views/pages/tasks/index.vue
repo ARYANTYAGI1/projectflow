@@ -59,12 +59,17 @@
             <el-table-column align="center" :label="$t('table.created_at')" width="150">
               <template #default="scope">{{ formatDate(scope.row.createdAt) }}</template>
             </el-table-column>
-            <el-table-column align="center" label="Actions" width="100">
+            <el-table-column align="center" label="Actions" width="180">
               <template #default="{ row }">
                 <div class="d-flex justify-content-center">
-                  <div v-if="userType==1">
-                    <router-link :to="`/project/create/${row._id}`" class="pe-2">
-                      <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
+                  <div>
+                    <router-link :to="`/tasks/create/${row._id}`" class="pe-2">
+                      <el-button  class="btn btn-primary table-icon-btn"><i class="mdi mdi-pencil"></i></el-button>
+                    </router-link>
+                    <router-link :to="`/task/view/${row._id}`">
+                        <el-button class="btn btn-primary table-icon-btn">
+                        <i class="mdi mdi-eye"></i>
+                        </el-button>
                     </router-link>
                   </div>
                 </div>

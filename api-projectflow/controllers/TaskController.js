@@ -8,8 +8,7 @@ const { registerValidationSchema } = require('../validations/userValidation');
 module.exports = {
     addTask: async (req, res) =>{
         try {
-            const { role, id} = req.user;
-            if(!role=='Admin' || !role=='Project Manager') return res.status(400).send({ success:false, message: 'Not Right Access to create task', data: null });
+            const {id} = req.user;
             const { title, description, project, assignedTo, status, priority, dueDate } = req.body;
             const task = new Task({
                 title: title,
@@ -29,8 +28,7 @@ module.exports = {
     },
     updateTask: async (req, res) => {
         try {
-            const { role, id} = req.user;
-            if(!role=='Admin' || !role=='Project Manager') return res.status(400).send({ success:false, message: 'Not Right Access to Update task', data: null });
+            console.log(req.body)
             const { title, description, project, assignedTo, status, priority, dueDate } = req.body
             const task = await Task.findById(req.params.id);
             if (!task) {
@@ -100,9 +98,16 @@ module.exports = {
     },
     taskDetail: async (req, res)=>{
         try {
-            
+            const task = await Task.findOne({_id: req.params.id}).populate('createdBy', '_id name').populate('assignedTo', '_id name').populate('project', '_id name');
+            if(!task) return res.status(404).send({ success: false, message: 'Task not found', data: null });
+            return res.status(200).send({ success: true, message: 'Success', data: task})
         } catch (error) {
-            
+            console.log(error)
+            return res.status(500).send({
+                success: false,
+                message: 'Internal Server Error',
+                error: error.message
+            });
         }
     }
 

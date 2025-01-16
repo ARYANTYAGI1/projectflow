@@ -17,4 +17,19 @@ export function getTaskList(query) {
       params: query
     })
 }
-  
+
+export function getTaskDetail(id) {
+    return request({
+        url: '/task/detail/' + id,
+        method: 'get',
+    })
+}
+
+export function updateTask(id, data) {
+    console.log(id,data)
+    return request({
+      url: '/task/update-task/' + id,
+      method: 'put',
+      data: data
+    })
+  }

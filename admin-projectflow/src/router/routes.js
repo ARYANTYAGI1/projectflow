@@ -181,4 +181,15 @@ export default [
         return import('../views/pages/tasks/create.vue')
       }
   },
+  {
+    name: 'Update Project',
+    path: '/tasks/create/:id',
+    meta: {
+      authRequired: true,
+      userType: [1,2,3]
+    },
+    component: () => {
+      return import('../views/pages/tasks/create.vue')
+    }
+  },
 ]

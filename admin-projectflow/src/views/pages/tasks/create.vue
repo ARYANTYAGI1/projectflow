@@ -30,7 +30,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :md="12">
-                    <el-form-item label="Assigned To"  prop="assignedTo">
+                    <el-form-item label="Assigned To" v-if="!id"  prop="assignedTo">
                     <el-select v-model="taskForm.assignedTo" :disabled="!taskForm.project" placeholder="Assign User">
                         <el-option
                         v-for="member in membersList"
@@ -95,7 +95,7 @@
     </template>
 
     <script>
-    import { createTask} from '@/api/tasks'
+    import { createTask, getTaskDetail, updateTask } from '@/api/tasks'
     import { getProjects , getProjectMembers } from '@/api/project';
 
     export default {
@@ -135,13 +135,26 @@
     },
     created() {
         this.detailLoading = true;
-        getProjects().then((response) => {
-        this.projectList = response.data.data;
-        this.detailLoading = false;
-        }).catch((error) => {
-        this.detailLoading = false;
-        this.$message.error(error.message);
-        });
+        this.id = this.$route.params.id || '';
+        if (this.id) {
+            this.detailLoading = true;
+            getTaskDetail(this.id)
+            .then((response) => {
+                this.taskForm = response.data.data;
+                console.log(this.taskForm)
+            })
+            .catch((error) => {
+                this.detailLoading = false;
+                this.$message.error(error.message);
+            });
+        }
+            getProjects().then((response) => {
+            this.projectList = response.data.data;
+            this.detailLoading = false;
+            }).catch((error) => {
+            this.detailLoading = false;
+            this.$message.error(error.message);
+            });
     },
     methods: {
     async fetchProjectMembers(id){
