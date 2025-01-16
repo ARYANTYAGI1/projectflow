@@ -135,15 +135,6 @@
     },
     created() {
         this.detailLoading = true;
-
-        // Fetch Members
-    //   getMemberList().then((response) => {
-    //     this.membersList = response.data.data;
-    //   }).catch((error) => {
-    //     this.$message.error(error.message);
-    //   });
-
-        // Fetch Projects
         getProjects().then((response) => {
         this.projectList = response.data.data;
         this.detailLoading = false;
@@ -151,46 +142,37 @@
         this.detailLoading = false;
         this.$message.error(error.message);
         });
-
-    //   this.id = this.$route.params.id || '';
-    //   if (this.id) {
-    //     getTaskDetail(this.id).then((response) => {
-    //       this.taskForm = response.data.data;
-    //     }).catch((error) => {
-    //       this.$message.error(error.message);
-    //     });
-    //   }
     },
     methods: {
     async fetchProjectMembers(id){
         if(!id) this.membersList = []
         const response = await getProjectMembers(id);
         this.membersList = response.data.data;
-    }
-    //   addTask(formName) {
-    //     this.$refs[formName].validate((valid) => {
-    //       if (valid) {
-    //         const { title, description, project, assignedTo, status, priority, dueDate } = this.taskForm;
-    //         const opts = { title, description, project, assignedTo, status, priority, dueDate };
-    //         this.addingRequest = true;
+    },
+    async addTask(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const { title, description, project, assignedTo, status, priority, dueDate } = this.taskForm;
+            const opts = { title, description, project, assignedTo, status, priority, dueDate };
+            this.addingRequest = true;
 
-    //         const request = this.id ? updateTask(this.id, opts) : createTask(opts);
+            const request = this.id ? updateTask(this.id, opts) : createTask(opts);
 
-    //         request.then((response) => {
-    //           this.addingRequest = false;
-    //           this.$router.push({ path: '/tasks' });
-    //           this.$refs[formName].resetFields();
-    //           this.$message({ type: 'success', message: response.data.message });
-    //         }).catch((error) => {
-    //           this.addingRequest = false;
-    //           this.$message.error(error.message);
-    //         });
-    //       } else {
-    //         console.log('Validation failed!');
-    //         return false;
-    //       }
-    //     });
-    //   },
+            request.then((response) => {
+              this.addingRequest = false;
+              this.$router.push({ path: '/tasks' });
+              this.$refs[formName].resetFields();
+              this.$message({ type: 'success', message: response.data.message });
+            }).catch((error) => {
+              this.addingRequest = false;
+              this.$message.error(error.message);
+            });
+          } else {
+            console.log('Validation failed!');
+            return false;
+          }
+        });
+      },
     },
     };
     </script>

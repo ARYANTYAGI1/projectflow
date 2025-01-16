@@ -9,3 +9,12 @@ export function createTask(data) {
         data
     })
 }
+
+export function getTaskList(query) {
+    return request({
+      url: '/task/task-list',
+      method: 'get',
+      params: query
+    })
+}
+  

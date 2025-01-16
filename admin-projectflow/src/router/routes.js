@@ -153,7 +153,7 @@ export default [
     path: '/project/create/:id',
     meta: {
       authRequired: true,
-      userType: [1,2,3]
+      userType: [1]
     },
     component: () => {
       return import('../views/pages/project/create.vue')

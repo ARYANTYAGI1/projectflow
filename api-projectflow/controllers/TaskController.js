@@ -18,7 +18,8 @@ module.exports = {
                 assignedTo: assignedTo,
                 status: status,
                 priority: priority,
-                createdBy: id
+                createdBy: id,
+                dueDate: dueDate
             })
             await task.save();
             return res.status(200).send({ success: true, message: "Task Created Successfully", data: task._id });
@@ -51,24 +52,50 @@ module.exports = {
             return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
         }
     },
-    taskList: async (req, res) => {
+    getTaskList: async (req, res) => {
         try {
-            const { role, _id } = req.user;
-            const { page = 1 } = req.query;
-            const limit = 10;
-            const skip = (page - 1) * limit;
-            let projectFilter = {};
-            if (role !== 'Admin') {
-                const userProjects = await Project.find({ members: _id }).select('_id');
-                const projectIds = userProjects.map((project) => project._id);
-                projectFilter = { project: { $in: projectIds } };
+            let query = {};
+            const offset = req.query.page ? (req.query.page - 1) * req.query.limit : 0;
+            const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+            if (!query.$and) query.$and = [];
+            if (req.query.name) {
+                const name = req.query.name;
+                if (!query.$and) query.$and = [];
+                query.$and.push({
+                    $or: [
+                        { title: { $regex: new RegExp(name, 'i') } },
+                        { description: { $regex: new RegExp(name, 'i') } }
+                    ]
+                });
             }
-            const tasks = await Task.find(projectFilter).skip(skip).limit(limit).populate({path: 'project',select: 'name'}).populate({path: 'createdBy',select: 'name email'});
-            const totalTasks = await Task.countDocuments(projectFilter);
-            const totalPages = Math.ceil(totalTasks / limit);
-            return res.status(200).send({ success: true, message: 'Task list retrieved successfully',data: { tasks, pagination: { currentPage: parseInt(page), totalPages, totalTasks}}});
+            if (req.query.status) {
+                query.status = req.query.status;
+            }
+            if (!query.$and.length) {
+                query = {};
+            }
+            const [totalCount, task] = await Promise.all([
+                Task.countDocuments(query),
+                Task.find(query)
+                    .populate('createdBy', 'name email')
+                    .populate('project', 'name')
+                    .populate('assignedTo', 'name')
+                    .sort('-createdAt')
+                    .skip(offset)
+                    .limit(limit)
+            ]); 
+            return res.status(200).send({
+                success: true,
+                message: 'Task retrieved successfully',
+                data: task,
+                totalCount
+            });
         } catch (error) {
-            return res.status(500).send({ success: false, message: 'Internal Server Error', data: error.message });
+            return res.status(500).send({
+                success: false,
+                message: 'Internal Server Error',
+                error: error.message
+            });
         }
     },
     taskDetail: async (req, res)=>{
