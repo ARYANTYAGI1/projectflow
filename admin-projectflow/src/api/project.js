@@ -33,6 +33,7 @@ export function getProjectDetail(id) {
 }
 
 export function updateProject(id, data) {
+  console.log(id, data)
   return request({
     url: '/project/update-project/' + id,
     method: 'put',

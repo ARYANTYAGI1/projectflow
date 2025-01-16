@@ -11,7 +11,7 @@
             />
           </div>
           <div v-if="userType==1" class="d-flex">
-            <router-link to="/projects/create">
+            <router-link to="/project/create">
               <el-button class="btn btn-primary me-2 w-100">
                 Add Project
               </el-button>
@@ -46,7 +46,7 @@
                     </el-button>
                   </div>
                   <div v-if="userType==1">
-                    <router-link :to="`/projects/create/${row._id}`" class="pe-2">
+                    <router-link :to="`/project/create/${row._id}`" class="pe-2">
                       <el-button class="btn btn-primary table-icon-btn"><i class="mdi mdi-account-edit"></i></el-button>
                     </router-link>
                   </div>

@@ -95,8 +95,8 @@
     </template>
 
     <script>
-    //   import { getMemberList, getProjectList, createTask, getTaskDetail, updateTask } from '@/api/task'
-    import { getProjects , getProjectMembers, createTask } from '@/api/project';
+    import { createTask} from '@/api/tasks'
+    import { getProjects , getProjectMembers } from '@/api/project';
 
     export default {
     page: {

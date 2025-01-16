@@ -129,36 +129,34 @@ export default [
     }
   },
   {
-    path: '/projects',
-    name: 'Projects',
+    path: '/project',
+    name: 'Project',
     meta: {
       authRequired: true,
       userType: [1,2,3]
     },
     component: () => {
-      return import('../views/pages/projects/index.vue')
+      return import('../views/pages/project/index.vue')
     }
   },
   {
     name: 'CreateProject',
-    path: '/projects/create',
+    path: '/project/create',
     meta: {
       authRequired: true,
-      userType: [1,2,3]
+      userType: [1],
     },
-    component: () => {
-      return import('../views/pages/projects/create.vue')
-    }
+    component: () => import('../views/pages/project/create.vue'),
   },
   {
     name: 'Update Project',
-    path: '/projects/create/:id',
+    path: '/project/create/:id',
     meta: {
       authRequired: true,
       userType: [1,2,3]
     },
     component: () => {
-      return import('../views/pages/projects/create.vue')
+      return import('../views/pages/project/create.vue')
     }
   },
   {

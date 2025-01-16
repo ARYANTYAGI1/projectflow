@@ -268,7 +268,7 @@ module.exports = {
         userType: { $in: [2, 3] },
         status: 'Active',
       };
-      const members = await User.find(query).select('_id name');
+      const members = await User.find(query).select('_id name role');
       return res.status(200).send({
         success: true,
         message: 'Members fetched successfully',
