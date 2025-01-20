@@ -109,6 +109,33 @@ module.exports = {
                 error: error.message
             });
         }
-    }
-
+    },
+    deleteTask: async (req, res) => {
+        try {
+            const task = await Task.findById(req.params.id);
+    
+            if (!task) {
+                return res.status(404).send({
+                    success: false,
+                    message: 'Task not found',
+                    data: null,
+                });
+            }
+    
+            await Task.findByIdAndDelete(req.params.id); // Deletes the task by ID
+    
+            return res.status(200).send({
+                success: true,
+                message: 'Task deleted successfully',
+                data: null,
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send({
+                success: false,
+                message: 'Internal Server Error',
+                error: error.message,
+            });
+        }
+    }    
 }
