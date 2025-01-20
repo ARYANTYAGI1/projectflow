@@ -71,6 +71,9 @@
                         <i class="mdi mdi-eye"></i>
                         </el-button>
                     </router-link>
+                    <el-button @click="removeTask(row)" class="btn btn-primary table-icon-btn" style="margin-left: 8px;">
+                        <i class="mdi mdi-trash-can"></i>
+                        </el-button>
                   </div>
                 </div>
               </template>
@@ -104,7 +107,7 @@
 </template>
 
 <script>
-import { getTaskList } from "@/api/tasks";
+import { getTaskList, deleteTask } from "@/api/tasks";
 import { mapGetters } from 'vuex'
 
 export default {
@@ -183,6 +186,23 @@ export default {
           return '';
       }
     },
+    removeTask(row) {
+      this.$confirm("Are you Sure To delete Task", "Warning", {
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Cancel",
+        type: 'warning'
+      }).then(async() => {
+        await deleteTask(row._id)
+        var totalCounts = this.total / 10
+        if (totalCounts.toString().split('.')[1] === '1') {
+          this.listQuery.page = this.listQuery.page - 1
+        }
+        this.getPageInfo()
+        this.$message({ type: 'success', message: "Task Deleted Successfully" })
+      }).catch(err => {
+        console.error(err)
+      })
+    }
   },
 };
 </script>

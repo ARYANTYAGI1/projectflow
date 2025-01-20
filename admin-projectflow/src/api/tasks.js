@@ -26,10 +26,16 @@ export function getTaskDetail(id) {
 }
 
 export function updateTask(id, data) {
-    console.log(id,data)
     return request({
       url: '/task/update-task/' + id,
       method: 'put',
       data: data
     })
-  }
+}
+
+export function deleteTask(id) {
+    return request({
+        url: '/task/remove/' + id,
+        method: 'delete',
+      })
+}
